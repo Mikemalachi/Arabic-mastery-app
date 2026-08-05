@@ -6,7 +6,8 @@
     "build": "echo 'Static app — nothing to build'"
   },
   "devDependencies": {
-    "@capacitor/cli": "^6.1.0"
+    "@capacitor/cli": "^6.1.0",
+    "@capacitor/assets": "^3.0.5"
   },
   "dependencies": {
     "@capacitor/core": "^6.1.0",
