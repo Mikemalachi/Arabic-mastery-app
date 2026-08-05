@@ -1,0 +1,15 @@
+{
+  "name": "arabic-mastery-app",
+  "version": "1.0.0",
+  "description": "Arabic Mastery — a self-contained Arabic learning app",
+  "scripts": {
+    "build": "echo 'Static app — nothing to build'"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.0"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.1.0",
+    "@capacitor/android": "^6.1.0"
+  }
+}
