@@ -1,0 +1,1999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>قِرَاءَة — Arabic Mastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --radius:14px;
+  --radius-sm:9px;
+  --font-display:'Cormorant Garamond', serif;
+  --font-arabic:'Amiri', serif;
+  --font-body:'Inter', system-ui, sans-serif;
+}
+html[data-theme="light"]{
+  --bg:#F1E4C8; --bg-alt:#E7D4A9; --card:#FBF3DF; --card-border:#C9A868;
+  --ink:#3E2A18; --ink-soft:#6B5334; --leather:#7C4A2D; --gold:#B4862F; --gold-bright:#C9A24B;
+  --accent:#8B5E3C; --accent-contrast:#FBF3DF; --danger:#9A3B2B; --success:#3E7A46;
+  --shadow:0 4px 18px rgba(76,49,20,0.18); --divider:#D8C093;
+  --selected-bg:#8B5E3C; --selected-text:#FBF3DF; --lock:#B7A47A;
+}
+html[data-theme="dark"]{
+  --bg:#071326; --bg-alt:#0B1B36; --card:#132544; --card-border:#1E3A63;
+  --ink:#EAF6FF; --ink-soft:#A9C4DE; --leather:#8FD3FF; --gold:#E6C878; --gold-bright:#E6C878;
+  --accent:#8FD3FF; --accent-contrast:#071326; --danger:#FF8A8A; --success:#7FE3A0;
+  --shadow:0 4px 20px rgba(0,0,0,0.45); --divider:#1E3A63;
+  --selected-bg:#8FD3FF; --selected-text:#071326; --lock:#3A5478;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overflow-x:hidden;}
+body{background:var(--bg); color:var(--ink); font-family:var(--font-body); transition:background .3s,color .3s; font-size:var(--fs-base,16px);}
+h1,h2,h3,h4{font-family:var(--font-display); margin:0; color:var(--ink); font-weight:700;}
+.arabic{font-family:var(--font-arabic); direction:rtl;}
+p{margin:0;}
+button{font-family:var(--font-body); cursor:pointer; border:none; background:none; color:inherit;}
+button:disabled{opacity:.45; cursor:not-allowed;}
+input,select,textarea{font-family:var(--font-body); color:var(--ink); background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius-sm);}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-thumb{background:var(--card-border); border-radius:4px;}
+
+#app{max-width:480px; margin:0 auto; min-height:100vh; background:var(--bg); position:relative; padding-bottom:78px;}
+html[data-theme="light"] #app{background-image:radial-gradient(circle at 15% 8%, rgba(180,134,47,0.10) 0%, transparent 40%),radial-gradient(circle at 85% 90%, rgba(124,74,45,0.10) 0%, transparent 40%);}
+html[data-theme="dark"] #app{background-image:radial-gradient(1.5px 1.5px at 20% 15%, #ffffff55 0%, transparent 100%),radial-gradient(1.5px 1.5px at 70% 30%, #ffffff44 0%, transparent 100%),radial-gradient(1.5px 1.5px at 40% 60%, #ffffff33 0%, transparent 100%),radial-gradient(1.5px 1.5px at 85% 75%, #ffffff40 0%, transparent 100%),radial-gradient(1.5px 1.5px at 55% 85%, #ffffff33 0%, transparent 100%),radial-gradient(2px 2px at 10% 50%, #ffffff40 0%, transparent 100%);}
+
+.topbar{display:flex; align-items:center; justify-content:space-between; padding:18px 20px 10px 20px;}
+.brand{display:flex; align-items:center; gap:10px;}
+.brand-mark{width:34px;height:34px;border-radius:9px; background:linear-gradient(135deg,var(--gold-bright),var(--accent)); display:flex;align-items:center;justify-content:center; font-family:var(--font-arabic); color:var(--accent-contrast); font-weight:700; font-size:18px;}
+.brand-name{font-family:var(--font-display); font-size:22px; font-weight:700;}
+.icon-btn{width:38px;height:38px;border-radius:50%; display:flex;align-items:center;justify-content:center; background:var(--card); border:1px solid var(--card-border); font-size:17px;}
+
+.view{display:none; padding:6px 20px 24px 20px; animation:fadeIn .25s ease;}
+.view.active{display:block;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+.section-title{font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); font-weight:600; margin:22px 0 10px 2px;}
+.section-title:first-child{margin-top:6px;}
+
+.card{background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); margin-bottom:14px;}
+.card-flat{background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius-sm); padding:12px;}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 18px; border-radius:11px; font-weight:600; font-size:15px; background:var(--accent); color:var(--accent-contrast); width:100%;}
+.btn.secondary{background:transparent; color:var(--accent); border:1.5px solid var(--accent);}
+.btn.small{width:auto; padding:8px 14px; font-size:13px;}
+.btn.ghost{background:var(--bg-alt); color:var(--ink); width:auto; padding:8px 12px; font-size:13px;}
+.btn.danger{background:transparent; color:var(--danger); border:1.5px solid var(--danger); width:auto;}
+.btn.flex1{flex:1; width:auto;}
+
+.row{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+.row.wrap{flex-wrap:wrap;}
+.pill{padding:5px 12px; border-radius:20px; font-size:12px; font-weight:600; background:var(--bg-alt); color:var(--ink-soft); border:1px solid var(--card-border);}
+.pill.active{background:var(--selected-bg); color:var(--selected-text); border-color:transparent;}
+
+.bottomnav{position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; background:var(--card); border-top:1px solid var(--card-border); display:flex; overflow-x:auto; scrollbar-width:none; padding:6px 4px; z-index:50;}
+.bottomnav::-webkit-scrollbar{display:none;}
+.navitem{flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:3px; padding:8px 12px; border-radius:10px; min-width:62px; color:var(--ink-soft); font-size:10.5px; font-weight:600;}
+.navitem .ic{font-size:19px;}
+.navitem.active{color:var(--accent);}
+.navitem.active .ic{background:var(--selected-bg); color:var(--selected-text); width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;}
+
+.hero-plan{background:linear-gradient(135deg, var(--leather), var(--accent)); border-radius:var(--radius); padding:20px; color:var(--accent-contrast); margin-bottom:16px; box-shadow:var(--shadow);}
+html[data-theme="dark"] .hero-plan{background:linear-gradient(135deg,#132544,#0B1B36); border:1px solid var(--card-border); color:var(--ink);}
+.hero-plan .eyebrow{font-size:12px; opacity:.8; text-transform:uppercase; letter-spacing:.08em; font-weight:600;}
+.hero-plan .arabic{font-size:26px; margin-top:6px;}
+.hero-plan .sub{font-size:13px; opacity:.85; margin-top:2px;}
+.progress-track{height:7px; border-radius:6px; background:rgba(255,255,255,0.25); margin-top:14px; overflow:hidden;}
+html[data-theme="dark"] .progress-track{background:var(--bg-alt);}
+.progress-fill{height:100%; background:var(--gold-bright); border-radius:6px;}
+.stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:14px;}
+.stat-box{background:var(--card); border:1px solid var(--card-border); border-radius:10px; padding:10px 6px; text-align:center;}
+.stat-box .num{font-family:var(--font-display); font-size:20px; font-weight:700; color:var(--gold-bright);}
+.stat-box .lbl{font-size:9.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em;}
+
+.plan-item{display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--divider);}
+.plan-item:last-child{border-bottom:none;}
+.plan-ic{width:38px;height:38px;border-radius:10px; flex:0 0 auto; background:var(--bg-alt); display:flex;align-items:center;justify-content:center; font-size:17px;}
+.plan-text .t{font-weight:600; font-size:14px;}
+.plan-text .s{font-size:12px; color:var(--ink-soft);}
+.clickable{cursor:pointer;}
+
+/* Path / Map */
+.month-acc{border:1px solid var(--card-border); border-radius:var(--radius); margin-bottom:10px; overflow:hidden; background:var(--card);}
+.month-acc-head{display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer;}
+.month-num{width:34px;height:34px;border-radius:50%; display:flex;align-items:center;justify-content:center; font-weight:700; font-family:var(--font-display); background:var(--bg-alt); color:var(--ink-soft); flex:0 0 auto;}
+.month-num.done{background:var(--gold-bright); color:var(--accent-contrast);}
+.month-num.current{background:var(--selected-bg); color:var(--selected-text);}
+.month-acc-body{padding:0 16px 14px 16px; display:none;}
+.month-acc.open .month-acc-body{display:block;}
+.week-block{margin-bottom:10px;}
+.week-label{font-size:11.5px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px;}
+.day-row{display:flex; gap:6px; flex-wrap:wrap;}
+.day-dot{width:34px;height:34px;border-radius:9px; display:flex;align-items:center;justify-content:center; font-size:12px; font-weight:700; background:var(--bg-alt); color:var(--ink-soft); border:1.5px solid var(--card-border); cursor:pointer;}
+.day-dot.done{background:var(--success); color:#08210F; border-color:var(--success);}
+.day-dot.current{background:var(--selected-bg); color:var(--selected-text); border-color:var(--selected-bg); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent);}
+.day-dot.locked{color:var(--lock); background:var(--bg-alt);}
+
+/* Lessons */
+.dropdown-row{display:flex; gap:8px; margin-bottom:12px;}
+.dropdown-row select{flex:1; padding:9px 8px; font-size:13px;}
+.day-strip{display:flex; gap:6px; margin-bottom:14px;}
+.day-strip .day-dot{flex:1; height:38px; border-radius:10px;}
+.lesson-tabs{display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:14px;}
+.ltab{padding:8px 14px; border-radius:20px; font-size:13px; font-weight:600; white-space:nowrap; background:var(--bg-alt); color:var(--ink-soft); border:1px solid var(--card-border);}
+.ltab.active{background:var(--selected-bg); color:var(--selected-text); border-color:transparent;}
+.prevnext{display:flex; justify-content:space-between; margin-top:16px; gap:10px;}
+.lock-banner{text-align:center; padding:36px 16px;}
+.lock-banner .ic{font-size:36px; margin-bottom:10px;}
+.lock-banner p{color:var(--ink-soft); font-size:13.5px; margin-bottom:16px; line-height:1.5;}
+
+.vocab-item{display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--divider);}
+.vocab-item:last-child{border-bottom:none;}
+.vocab-pic{width:44px;height:44px;border-radius:10px;background:var(--bg-alt);display:flex;align-items:center;justify-content:center;font-size:20px;flex:0 0 auto;}
+.vocab-ar{font-size:20px;}
+.vocab-en{font-size:12px;color:var(--ink-soft);}
+.speak-btn{margin-left:auto; width:32px;height:32px;border-radius:50%;background:var(--bg-alt); display:flex;align-items:center;justify-content:center; flex:0 0 auto;}
+
+.flip-wrap{perspective:1200px; height:220px; margin-bottom:16px;}
+.flip-card{position:relative; width:100%; height:100%; transition:transform .5s; transform-style:preserve-3d;}
+.flip-card.flipped{transform:rotateY(180deg);}
+.face{position:absolute; inset:0; backface-visibility:hidden; border-radius:var(--radius); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; background:var(--card); border:1px solid var(--card-border); box-shadow:var(--shadow); padding:16px; text-align:center;}
+.face.back{transform:rotateY(180deg);}
+.face .big-ar{font-size:38px;}
+.card-controls{display:flex; gap:8px;}
+.card-controls .btn{flex:1;}
+
+.quiz-opt{display:block; width:100%; text-align:left; padding:12px 14px; border-radius:10px; background:var(--card); border:1.5px solid var(--card-border); margin-bottom:8px; font-size:14px;}
+.quiz-opt.correct{border-color:var(--success); background:color-mix(in srgb, var(--success) 15%, var(--card));}
+.quiz-opt.wrong{border-color:var(--danger); background:color-mix(in srgb, var(--danger) 15%, var(--card));}
+
+.note-card{cursor:pointer;}
+.note-card .snippet{font-size:12px; color:var(--ink-soft); margin-top:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+textarea.note-editor{width:100%; min-height:140px; padding:12px; font-size:14px; resize:vertical;}
+
+.heatgrid{display:grid; grid-template-columns:repeat(13,1fr); gap:3px; margin-top:10px;}
+.heatcell{aspect-ratio:1; border-radius:3px; background:var(--bg-alt);}
+.badge-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:8px;}
+.badge{display:flex; flex-direction:column; align-items:center; gap:5px; opacity:.4;}
+.badge.earned{opacity:1;}
+.badge .ic{width:44px;height:44px;border-radius:50%;background:var(--bg-alt);display:flex;align-items:center;justify-content:center;font-size:19px; border:2px solid var(--card-border);}
+.badge.earned .ic{border-color:var(--gold-bright); background:color-mix(in srgb, var(--gold-bright) 18%, var(--card));}
+.badge .lbl{font-size:9.5px; text-align:center; color:var(--ink-soft);}
+
+.setting-row{display:flex; align-items:center; justify-content:space-between; padding:13px 0; border-bottom:1px solid var(--divider);}
+.setting-row:last-child{border-bottom:none;}
+.setting-lbl{font-size:14px; font-weight:500;}
+.setting-sub{font-size:11.5px; color:var(--ink-soft);}
+.toggle{width:44px; height:26px; border-radius:20px; background:var(--bg-alt); position:relative; border:1px solid var(--card-border); flex:0 0 auto;}
+.toggle .knob{width:20px;height:20px;border-radius:50%;background:var(--ink-soft); position:absolute; top:2px; left:2px; transition:all .2s;}
+.toggle.on{background:var(--accent);}
+.toggle.on .knob{left:20px; background:var(--accent-contrast);}
+input[type=range]{width:110px;}
+
+.chat-scroll{display:flex; flex-direction:column; gap:10px; padding-bottom:8px;}
+.msg{max-width:82%; padding:10px 13px; border-radius:14px; font-size:14px; line-height:1.5;}
+.msg.user{align-self:flex-end; background:var(--selected-bg); color:var(--selected-text); border-bottom-right-radius:4px;}
+.msg.ai{align-self:flex-start; background:var(--card); border:1px solid var(--card-border); border-bottom-left-radius:4px;}
+.msg-icons{display:flex; gap:10px; margin-top:6px; font-size:12px; opacity:.75;}
+.chatbar{position:fixed; bottom:70px; left:0; right:0; max-width:480px; margin:0 auto; background:var(--bg); padding:8px 14px 10px; display:flex; gap:8px; border-top:1px solid var(--card-border);}
+.chatbar textarea{flex:1; resize:none; padding:11px 12px; font-size:14px; max-height:90px;}
+.chatbar .sendbtn{width:44px;height:44px;border-radius:50%; background:var(--accent); color:var(--accent-contrast); display:flex;align-items:center;justify-content:center; flex:0 0 auto;}
+.tools-sheet{position:fixed; inset:0; background:rgba(0,0,0,0.4); display:none; align-items:flex-end; justify-content:center; z-index:100;}
+.tools-sheet.open{display:flex;}
+.tools-panel{background:var(--card); width:100%; max-width:480px; border-radius:18px 18px 0 0; padding:18px; max-height:70vh; overflow-y:auto;}
+.tool-item{padding:12px 4px; border-bottom:1px solid var(--divider); font-size:14px; font-weight:500; cursor:pointer;}
+.provider-order{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--ink-soft); margin-top:6px;}
+
+.yt-embed{width:100%; aspect-ratio:16/9; border-radius:var(--radius); overflow:hidden; background:#000; margin-bottom:10px;}
+.yt-embed iframe{width:100%; height:100%; border:0;}
+
+.empty{text-align:center; padding:30px 10px; color:var(--ink-soft);}
+.empty .ic{font-size:34px; margin-bottom:8px;}
+.hidden{display:none !important;}
+.modal-bg{position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; z-index:200; padding:20px;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--card); border-radius:var(--radius); padding:20px; max-width:380px; width:100%; box-shadow:var(--shadow);}
+label{font-size:12px; color:var(--ink-soft); font-weight:600; display:block; margin:10px 0 4px;}
+input[type=text], input[type=password], input[type=url]{width:100%; padding:10px; font-size:14px;}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark arabic">ق</div>
+      <div class="brand-name">قِرَاءَة</div>
+    </div>
+    <button class="icon-btn" onclick="toggleTheme()" id="themeToggleBtn">🌙</button>
+  </div>
+
+  <!-- ============ HOME ============ -->
+  <div class="view active" id="view-home">
+    <div class="hero-plan">
+      <div class="eyebrow" id="homeEyebrow">Today's Plan · Week 1, Day 1</div>
+      <div class="arabic" id="homeArabicTitle">أَهْلاً وَسَهْلاً</div>
+      <div class="sub" id="homeSub">Letters ا ب ت ث — sounds, tracing, and your first words.</div>
+      <div class="progress-track"><div class="progress-fill" id="homeProgressFill" style="width:0%"></div></div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="num" id="statXP">0</div><div class="lbl">XP</div></div>
+        <div class="stat-box"><div class="num" id="statStreak">0</div><div class="lbl">Streak</div></div>
+        <div class="stat-box"><div class="num" id="statWords">0</div><div class="lbl">Words</div></div>
+        <div class="stat-box"><div class="num" id="statLevel">1</div><div class="lbl">Level</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="plan-item clickable" onclick="continueLearning()">
+        <div class="plan-ic">📘</div>
+        <div class="plan-text"><div class="t">Today's Lesson</div><div class="s" id="homePlanLesson">Letters Group 1 · Learn</div></div>
+      </div>
+      <div class="plan-item clickable" onclick="goView('review')">
+        <div class="plan-ic">🔁</div>
+        <div class="plan-text"><div class="t">Reviews Due</div><div class="s">Tap to review today's cards</div></div>
+      </div>
+      <div class="plan-item clickable" onclick="goView('cards')">
+        <div class="plan-ic">🗂️</div>
+        <div class="plan-text"><div class="t">Flashcards</div><div class="s">Practice this week's vocabulary</div></div>
+      </div>
+      <div class="plan-item clickable" onclick="goView('ai'); sendPresetPrompt('Let's have a beginner-friendly conversation in Arabic.')">
+        <div class="plan-ic">💬</div>
+        <div class="plan-text"><div class="t">Conversation</div><div class="s">AI roleplay practice</div></div>
+      </div>
+      <div class="plan-item">
+        <div class="plan-ic">⏱️</div>
+        <div class="plan-text"><div class="t">Estimated Time</div><div class="s">~45–55 minutes</div></div>
+      </div>
+    </div>
+
+    <button class="btn" onclick="continueLearning()" id="homeCTA">Start Learning →</button>
+  </div>
+
+  <!-- ============ MAP ============ -->
+  <div class="view" id="view-map">
+    <h3 style="margin-bottom:4px;">Your Year in Arabic</h3>
+    <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:14px;">Tap any unlocked day to jump straight to it.</p>
+    <div id="mapList"></div>
+  </div>
+
+  <!-- ============ LESSONS ============ -->
+  <div class="view" id="view-lessons">
+    <div class="dropdown-row">
+      <select id="selMonth" onchange="onMonthChange()"></select>
+      <select id="selWeek" onchange="onWeekChange()"></select>
+    </div>
+    <div class="day-strip" id="dayStrip"></div>
+
+    <div id="lessonUnlocked">
+      <div class="lesson-tabs" id="lessonTabs"></div>
+      <div id="lessonContent"></div>
+      <button class="btn" style="margin-top:6px;" id="markCompleteBtn" onclick="markDayComplete()">✓ Mark Today's Lesson Complete</button>
+      <div class="prevnext">
+        <button class="btn ghost flex1" onclick="stepDay(-1)">← Previous</button>
+        <button class="btn ghost flex1" onclick="stepDay(1)">Next →</button>
+      </div>
+    </div>
+    <div id="lessonLocked" class="hidden">
+      <div class="card lock-banner">
+        <div class="ic">🔒</div>
+        <h4 id="lockedTitle">This day is locked</h4>
+        <p>Finish your current lesson first — Arabic sticks best in order, one day at a time.</p>
+        <button class="btn" onclick="continueLearning()">Go to my current lesson</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PRACTICE ============ -->
+  <div class="view" id="view-practice">
+    <h3 style="margin-bottom:12px;">Practice</h3>
+    <div class="section-title">Choose an exercise</div>
+    <div class="card" style="padding:0;">
+      <div class="plan-item clickable" onclick="openQuiz('reading')" style="padding:14px 16px;"><div class="plan-ic">📗</div><div class="plan-text"><div class="t">Reading</div><div class="s">Letters → words → sentences</div></div></div>
+      <div class="plan-item clickable" onclick="goPracticeTab('Write')" style="padding:14px 16px;"><div class="plan-ic">✍️</div><div class="plan-text"><div class="t">Writing & Tracing</div><div class="s">Practice forming letters and words</div></div></div>
+      <div class="plan-item clickable" onclick="openTyping()" style="padding:14px 16px;"><div class="plan-ic">⌨️</div><div class="plan-text"><div class="t">Typing Practice</div><div class="s">Build keyboard fluency</div></div></div>
+      <div class="plan-item clickable" onclick="openTyping()" style="padding:14px 16px;"><div class="plan-ic">🚀</div><div class="plan-text"><div class="t">Typing Speed Test</div><div class="s">Full paragraphs · WPM & accuracy</div></div></div>
+      <div class="plan-item clickable" onclick="goView('cards')" style="padding:14px 16px;"><div class="plan-ic">🗂️</div><div class="plan-text"><div class="t">Vocabulary</div><div class="s">Flashcards & spaced repetition</div></div></div>
+      <div class="plan-item clickable" onclick="openQuiz('matching')" style="padding:14px 16px;"><div class="plan-ic">🧩</div><div class="plan-text"><div class="t">Matching</div><div class="s">Match Arabic to meaning</div></div></div>
+      <div class="plan-item clickable" onclick="openQuiz('fillblank')" style="padding:14px 16px;"><div class="plan-ic">✏️</div><div class="plan-text"><div class="t">Fill the Blank</div><div class="s">Complete the sentence</div></div></div>
+      <div class="plan-item clickable" onclick="openQuiz('arrange')" style="padding:14px 16px;"><div class="plan-ic">🔀</div><div class="plan-text"><div class="t">Sentence Ordering</div><div class="s">Arrange words correctly</div></div></div>
+      <div class="plan-item clickable" onclick="openQuiz('listening')" style="padding:14px 16px;"><div class="plan-ic">🎧</div><div class="plan-text"><div class="t">Listening / Dictation</div><div class="s">Write what you hear</div></div></div>
+    </div>
+
+    <div id="typingArea" class="hidden">
+      <div class="section-title">Typing</div>
+      <div class="card">
+        <div class="row"><span class="pill active" id="typingCatLabel">Beginner paragraph</span>
+          <select id="typingCat" onchange="loadTypingText()" style="font-size:12px; padding:6px;">
+            <option value="current">Current lesson</option>
+            <option value="beginner" selected>Beginner paragraph</option>
+            <option value="daily">Daily life</option>
+            <option value="medical">Medical Arabic</option>
+          </select>
+        </div>
+        <p class="arabic" id="typingSource" style="font-size:18px; line-height:2; margin-top:12px;"></p>
+        <textarea id="typingInput" class="note-editor arabic" placeholder="اكتب هنا..." style="margin-top:10px;" oninput="updateTypingStats()"></textarea>
+        <div class="row" style="margin-top:10px; font-size:12px; color:var(--ink-soft);">
+          <span>WPM: <b id="wpmOut">0</b></span><span>Accuracy: <b id="accOut">100%</b></span><span>Time: <b id="timeOut">0s</b></span>
+        </div>
+        <button class="btn" style="margin-top:12px;" onclick="finishTyping()">Finish & Save</button>
+      </div>
+      <div class="section-title">History</div>
+      <div class="card" id="typingHistory"><div class="empty">No typing tests recorded yet.</div></div>
+    </div>
+    <div id="quizHolder"></div>
+  </div>
+
+  <!-- ============ REVIEW ============ -->
+  <div class="view" id="view-review">
+    <h3 style="margin-bottom:12px;">Review</h3>
+    <div class="row wrap" style="gap:8px; margin-bottom:14px;">
+      <button class="pill active" data-rf="due" onclick="setReviewFilter('due')">Daily Review</button>
+      <button class="pill" data-rf="weak" onclick="setReviewFilter('weak')">Weak Cards</button>
+      <button class="pill" data-rf="forgot" onclick="setReviewFilter('forgot')">Forgotten</button>
+    </div>
+    <div id="reviewDeck"></div>
+    <div class="section-title">Activity Heat Map</div>
+    <div class="card"><div class="heatgrid" id="reviewHeatmap"></div></div>
+  </div>
+
+  <!-- ============ CARDS ============ -->
+  <div class="view" id="view-cards">
+    <h3 style="margin-bottom:6px;">Flashcards</h3>
+    <p style="font-size:12px; color:var(--ink-soft); margin-bottom:14px;" id="cardProgressLbl">Card 1 of 5</p>
+    <div class="flip-wrap">
+      <div class="flip-card" id="flipCard" onclick="flipCard()">
+        <div class="face front">
+          <div class="big-ar arabic" id="cardFrontAr">بَيْت</div>
+          <div style="font-size:12px; color:var(--ink-soft);">Tap to reveal</div>
+        </div>
+        <div class="face back">
+          <div style="font-size:20px; font-weight:600;" id="cardBackEn">House</div>
+          <div style="font-size:12px; color:var(--ink-soft); display:flex; align-items:center; gap:6px;" id="cardBackEx">مثال: هذا بيتي.</div>
+          <button class="speak-btn hidden" id="cardBackExSpeak" onclick="speakArabic(window._cardExSpeak||'')">🔊</button>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="gap:8px;">
+      <button class="btn ghost flex1" onclick="speakArabic(document.getElementById('cardFrontAr').textContent)">🔊 Speak</button>
+      <button class="btn ghost flex1" onclick="toggleFavCard()" id="favBtn">☆ Favorite</button>
+      <button class="btn ghost flex1" onclick="nextCard('later')">⏭️ Later</button>
+    </div>
+    <div class="card-controls" style="margin-top:14px;">
+      <button class="btn danger" onclick="nextCard('hard')">Hard</button>
+      <button class="btn secondary" onclick="nextCard('good')">Good</button>
+      <button class="btn" onclick="nextCard('easy')">Easy</button>
+    </div>
+  </div>
+
+  <!-- ============ NOTEBOOK ============ -->
+  <div class="view" id="view-notebook">
+    <h3 style="margin-bottom:10px;">Notebook</h3>
+    <div class="dropdown-row">
+      <select id="nbSort" onchange="renderNotebook()">
+        <option value="new">Newest first</option>
+        <option value="old">Oldest first</option>
+      </select>
+      <input type="text" id="nbSearch" placeholder="Search notes..." oninput="renderNotebook()">
+    </div>
+    <div class="row wrap" style="gap:6px; margin-bottom:12px;">
+      <span class="pill active" data-nf="all" onclick="setNbFilter('all')">All</span>
+      <span class="pill" data-nf="lesson" onclick="setNbFilter('lesson')">Lesson</span>
+      <span class="pill" data-nf="ai" onclick="setNbFilter('ai')">AI</span>
+      <span class="pill" data-nf="story" onclick="setNbFilter('story')">Story</span>
+      <span class="pill" data-nf="medical" onclick="setNbFilter('medical')">Medical</span>
+    </div>
+    <div id="notebookList"></div>
+    <button class="btn" style="margin-top:12px;" onclick="openNoteEditor(null)">+ New Note</button>
+    <button class="btn ghost" style="margin-top:8px; width:100%;" onclick="exportNotebook()">Export Notes (.json)</button>
+  </div>
+
+  <!-- ============ DASHBOARD ============ -->
+  <div class="view" id="view-dashboard">
+    <h3 style="margin-bottom:14px;">Dashboard</h3>
+    <div class="stat-grid" style="grid-template-columns:repeat(4,1fr); margin-bottom:16px;">
+      <div class="stat-box"><div class="num" id="dXP">0</div><div class="lbl">XP</div></div>
+      <div class="stat-box"><div class="num" id="dLevel">1</div><div class="lbl">Level</div></div>
+      <div class="stat-box"><div class="num" id="dWords">0</div><div class="lbl">Words</div></div>
+      <div class="stat-box"><div class="num" id="dStreak">0</div><div class="lbl">Streak</div></div>
+    </div>
+    <div class="row wrap" style="gap:8px; margin-bottom:16px;">
+      <div class="card-flat" style="flex:1; min-width:120px;"><div style="font-size:11px; color:var(--ink-soft);">Days Completed</div><div style="font-family:var(--font-display); font-size:22px; font-weight:700;" id="dDaysDone">0 / 240</div></div>
+      <div class="card-flat" style="flex:1; min-width:120px;"><div style="font-size:11px; color:var(--ink-soft);">Stories Read</div><div style="font-family:var(--font-display); font-size:22px; font-weight:700;" id="dStories">0</div></div>
+      <div class="card-flat" style="flex:1; min-width:120px;"><div style="font-size:11px; color:var(--ink-soft);">AI Chats</div><div style="font-family:var(--font-display); font-size:22px; font-weight:700;" id="dChats">0</div></div>
+      <div class="card-flat" style="flex:1; min-width:120px;"><div style="font-size:11px; color:var(--ink-soft);">Typing Tests</div><div style="font-family:var(--font-display); font-size:22px; font-weight:700;" id="dTyping">0</div></div>
+    </div>
+    <div class="section-title">Heat Map</div>
+    <div class="card"><div class="heatgrid" id="dashHeatmap"></div></div>
+    <div class="section-title">Badges</div>
+    <div class="card"><div class="badge-grid" id="badgeGrid"></div></div>
+  </div>
+
+  <!-- ============ YOUTUBE ============ -->
+  <div class="view" id="view-youtube">
+    <h3 style="margin-bottom:12px;">YouTube Study Room</h3>
+
+    <div class="section-title" style="margin-top:0;">Recommended For You</div>
+    <div class="dropdown-row">
+      <select id="ytMonthSel" onchange="renderYoutubeRec()"></select>
+    </div>
+    <div class="card" id="ytRecCard"></div>
+
+    <div class="section-title">Or Watch Something Specific</div>
+    <div class="dropdown-row">
+      <input type="text" id="ytSearch" placeholder="Paste a YouTube video or playlist URL">
+      <button class="btn small" onclick="loadYoutube()">Go</button>
+    </div>
+    <div class="yt-embed" id="ytEmbed">
+      <div style="height:100%; display:flex; align-items:center; justify-content:center; color:#8aa; font-size:13px; text-align:center; padding:0 16px;">Paste a YouTube URL or playlist link above</div>
+    </div>
+    <div class="row" style="gap:8px; margin-bottom:10px;">
+      <button class="pill" onclick="ytAction('later')">🕒 Watch Later</button>
+      <button class="pill" onclick="ytAction('fav')">⭐ Favorite</button>
+      <button class="pill" onclick="ytAction('done')">✅ Completed</button>
+      <a class="pill" id="ytFallback" href="https://www.youtube.com" target="_blank" style="text-decoration:none;">Open in YouTube</a>
+    </div>
+    <div class="section-title">Notes while watching</div>
+    <textarea class="note-editor" id="ytNotes" placeholder="Type notes as you watch..."></textarea>
+    <div class="row" style="gap:8px; margin-top:8px;">
+      <button class="btn ghost flex1" onclick="saveYtNote()">Save Note</button>
+      <button class="btn ghost flex1" onclick="copyYtNote()">Copy</button>
+      <button class="btn ghost flex1" onclick="document.getElementById('ytNotes').value=''">Clear</button>
+    </div>
+    <div class="section-title">Saved Notes</div>
+    <div id="ytSavedNotes"><div class="empty">No notes yet.</div></div>
+  </div>
+
+  <!-- ============ AI ============ -->
+  <div class="view" id="view-ai" style="padding-bottom:150px;">
+    <div class="row" style="margin-bottom:10px;">
+      <h3>AI Tutor</h3>
+      <button class="btn ghost small" onclick="clearChat()">Clear</button>
+    </div>
+    <div class="chat-scroll" id="chatScroll"></div>
+  </div>
+
+  <!-- ============ SETTINGS ============ -->
+  <div class="view" id="view-settings">
+    <h3 style="margin-bottom:14px;">Settings</h3>
+    <div class="section-title">Appearance</div>
+    <div class="card">
+      <div class="setting-row"><div class="setting-lbl">Dark mode</div><div class="toggle" id="darkToggle" onclick="toggleTheme()"><div class="knob"></div></div></div>
+      <div class="setting-row"><div><div class="setting-lbl">Font size</div><div class="setting-sub" id="fontSizeLbl">Medium</div></div><input type="range" min="14" max="20" value="16" id="fontSlider" oninput="setFontSize(this.value)"></div>
+    </div>
+    <div class="section-title">Learning</div>
+    <div class="card">
+      <div class="setting-row"><div class="setting-lbl">Pronunciation mode</div>
+        <select id="pronMode" onchange="saveState()"><option>MSA (Fus'ha)</option><option>Levantine flavor</option><option>Egyptian flavor</option></select>
+      </div>
+      <div class="setting-row"><div><div class="setting-lbl">TTS speed</div><div class="setting-sub" id="ttsSpeedLbl">1.0×</div></div><input type="range" min="0.5" max="1.5" step="0.1" value="1" id="ttsSlider" oninput="setTtsSpeed(this.value)"></div>
+      <button class="btn secondary" style="margin-top:10px;" onclick="testAudioDiagnostic()">🔊 Test Audio</button>
+      <div id="audioTestResult" style="font-size:12px; margin-top:8px; color:var(--ink-soft);"></div>
+    </div>
+    <div class="section-title">AI Provider</div>
+    <div class="card">
+      <div class="setting-row"><div class="setting-lbl">Provider</div>
+        <select id="providerSel" onchange="renderProviderOrder()">
+          <option value="auto">Auto (fallback chain)</option>
+          <option value="gemini">Gemini</option>
+          <option value="grok">Grok</option>
+          <option value="deepseek">DeepSeek</option>
+        </select>
+      </div>
+      <div class="provider-order" id="providerOrder">Auto order: Gemini → Grok → DeepSeek</div>
+      <label>Gemini API key</label><input type="password" id="keyGemini" placeholder="sk-..." onchange="saveKeys()">
+      <label>Grok API key</label><input type="password" id="keyGrok" placeholder="xai-..." onchange="saveKeys()">
+      <label>DeepSeek API key</label><input type="password" id="keyDeepseek" placeholder="ds-..." onchange="saveKeys()">
+      <button class="btn secondary" style="margin-top:12px;" onclick="testAIConnection()">Test AI Connection</button>
+      <div id="testResult" style="font-size:12px; margin-top:8px; color:var(--ink-soft);"></div>
+    </div>
+    <div class="section-title">Progress</div>
+    <div class="card">
+      <div class="setting-row"><div><div class="setting-lbl">Current position</div><div class="setting-sub" id="settingsPos">Week 1, Day 1</div></div></div>
+      <button class="btn danger" style="margin-top:10px;" onclick="confirmResetProgress()">Reset Progress</button>
+    </div>
+    <div class="section-title">Backup</div>
+    <div class="card">
+      <button class="btn" onclick="exportBackup()">Export Backup (.json)</button>
+      <button class="btn secondary" style="margin-top:10px;" onclick="document.getElementById('restoreFile').click()">Restore from Backup</button>
+      <input type="file" id="restoreFile" accept=".json" class="hidden" onchange="restoreBackup(event)">
+    </div>
+    <div class="section-title">About</div>
+    <div class="card"><p style="font-size:12.5px; color:var(--ink-soft); line-height:1.6;">قِرَاءَة — a focused Arabic learning companion. Progress is saved automatically and travels with you across sessions.</p></div>
+  </div>
+
+  <div class="bottomnav" id="bottomnav"></div>
+</div>
+
+<div class="tools-sheet" id="toolsSheet" onclick="if(event.target===this) closeTools()">
+  <div class="tools-panel">
+    <h4 style="margin-bottom:10px;">AI Tools</h4>
+    <div id="toolsList"></div>
+    <button class="btn secondary" style="margin-top:12px;" onclick="closeTools()">Close</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="noteModalBg">
+  <div class="modal">
+    <h4 id="noteModalTitle" style="margin-bottom:10px;">New Note</h4>
+    <input type="text" id="noteTitleInput" placeholder="Title">
+    <textarea class="note-editor" id="noteBodyInput" placeholder="Write your note..." style="margin-top:8px;"></textarea>
+    <select id="noteTagInput" style="width:100%; margin-top:8px; padding:9px;">
+      <option value="lesson">Lesson note</option>
+      <option value="ai">AI note</option>
+      <option value="story">Story note</option>
+      <option value="medical">Medical note</option>
+    </select>
+    <div class="row" style="margin-top:14px; gap:8px;">
+      <button class="btn danger" id="noteDeleteBtn" onclick="deleteNote()">Delete</button>
+      <button class="btn ghost" onclick="closeNoteEditor()">Cancel</button>
+      <button class="btn" onclick="saveNote()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="quarterlyModalBg">
+  <div class="modal">
+    <h4 style="margin-bottom:12px;">📝 Quarterly Mastery Check</h4>
+    <div id="quarterlyBody"></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="confirmModalBg">
+  <div class="modal">
+    <h4 style="margin-bottom:8px;">Reset all progress?</h4>
+    <p style="font-size:13px; color:var(--ink-soft); margin-bottom:16px;">This sends you back to Week 1, Day 1 and clears XP, streak, and completed days. This can't be undone.</p>
+    <div class="row" style="gap:8px;">
+      <button class="btn ghost flex1" onclick="document.getElementById('confirmModalBg').classList.remove('open')">Cancel</button>
+      <button class="btn danger flex1" onclick="resetProgress()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= DATA ================= */
+const NAV = [
+  {id:'home', label:'Home', ic:'🏠'},
+  {id:'map', label:'Map', ic:'🗺️'},
+  {id:'lessons', label:'Lessons', ic:'📘'},
+  {id:'practice', label:'Practice', ic:'🎯'},
+  {id:'review', label:'Review', ic:'🔁'},
+  {id:'cards', label:'Cards', ic:'🗂️'},
+  {id:'notebook', label:'Notebook', ic:'📓'},
+  {id:'dashboard', label:'Dashboard', ic:'📊'},
+  {id:'settings', label:'Settings', ic:'⚙️'},
+  {id:'youtube', label:'YouTube', ic:'▶️'},
+  {id:'ai', label:'AI', ic:'✨'},
+];
+
+const CURRICULUM = [
+  {month:1, title:"The Alphabet & Sound System", cefr:"A0", weeks:[
+    {week:1, title:"Letters, Group 1", lessons:["Letters ا ب ت ث","Letters ج ح خ","Letters د ذ ر ز","Letters س ش ص ض","Review + Quiz"]},
+    {week:2, title:"Letters, Group 2 + Connections", lessons:["Letters ط ظ ع غ","Letters ف ق ك ل","Letters م ن ه و ي","Connection rules","Review + Quiz"]},
+    {week:3, title:"Vowels, Sukoon, Shadda, Tanween", lessons:["Fatha/Kasra/Damma","Sukoon & syllables","Shadda & Tanween","Long vowels","Review + Dictation"]},
+    {week:4, title:"First Words & Survival Phrases", lessons:["Greetings","Numbers 1-10 & days","Pronouns: أنا أنتَ أنتِ هو هي","Question words","Milestone: أول يوم"]},
+  ]},
+  {month:2, title:"Basic Grammar Skeleton", cefr:"A0→A1", weeks:[
+    {week:1, title:"Nouns & Gender", lessons:["Masculine/feminine & ة","الـ + sun/moon letters","Adjective agreement","Demonstratives","Quiz + flashcards"]},
+    {week:2, title:"Present Tense Verbs", lessons:["Present conjugation","Common verbs","Negation with لا","هل questions","Quiz"]},
+    {week:3, title:"Prepositions & Possession", lessons:["Core prepositions","Idafa construction","Possessive suffixes","Colors & clothing","Quiz + speaking"]},
+    {week:4, title:"First Real Conversations", lessons:["Ordering food","Full self-introduction","Shopping & prices","Typing test #1","Milestone: في المطعم"]},
+  ]},
+  {month:3, title:"Expanding Present Tense & Daily Life", cefr:"A1", weeks:[
+    {week:1, title:"Irregular Present Verbs", lessons:["Hollow verbs","Doubled verbs","Defective verbs intro","Daily routine vocab","Quiz"]},
+    {week:2, title:"Plurals", lessons:["Sound masc. plural","Sound fem. plural","Broken plurals (top 50)","Dual form","Quiz"]},
+    {week:3, title:"Daily Life Domain", lessons:["Weather & seasons","House & furniture","City & directions","Asking directions dialogue","Quiz"]},
+    {week:4, title:"Comparatives & Opinions", lessons:["Comparative/superlative","Likes/dislikes + لأنّ","Mixed review","Speaking drill","Milestone: يوم في المدينة"]},
+  ]},
+  {month:4, title:"Past Tense & Real Conversations", cefr:"A1→A2", weeks:[
+    {week:1, title:"Past Tense", lessons:["Regular past conjugation","Irregular past verbs","Negation: ما / لم","Quiz","Speaking drill"]},
+    {week:2, title:"Storytelling Basics", lessons:["Sequencing words","Narrate yesterday","Read first AI story","Quiz","Vocabulary"]},
+    {week:3, title:"Question Mastery & Connectors", lessons:["All question words","Connectors و/لكن/أو/لأن","Health & body vocab","Quiz","Speaking"]},
+    {week:4, title:"Conversation Milestone", lessons:["Mixed review","Typing test #2","AI conversation practice","All 5 quiz types","Milestone: قصتي أمس"]},
+  ]},
+  {month:5, title:"Grammar Depth + Colloquial Begins", cefr:"A2", weeks:[
+    {week:1, title:"Future & Subjunctive", lessons:["Future with سـ/سوف","Subjunctive أن + verb","Travel vocabulary","Quiz","Vocabulary"]},
+    {week:2, title:"Imperative & Requests", lessons:["Command form","Polite requests","Shopping negotiation","Quiz","Speaking"]},
+    {week:3, title:"Colloquial Introduction", lessons:["MSA↔Colloquial swaps","Levantine greetings","Common phrases","Quiz","Vocabulary"]},
+    {week:4, title:"Travel Domain Deep Dive", lessons:["Hotel booking","Airport check-in","Mixed review","Quiz","Milestone: رحلة إلى دبي"]},
+  ]},
+  {month:6, title:"Description, Emotion & Complex Sentences", cefr:"A2", weeks:[
+    {week:1, title:"Adjective Mastery", lessons:["Personality adjectives","Physical description","Comparative structures","Quiz","Speaking"]},
+    {week:2, title:"Emotion & Opinion", lessons:["Feelings vocabulary","Agree/disagree","لأن/مع أن/لكن clauses","Quiz","Vocabulary"]},
+    {week:3, title:"Relative Clauses", lessons:["الذي/التي/الذين","Reading A2 texts","Sentence combining","Quiz","Speaking"]},
+    {week:4, title:"Month 6 Milestone", lessons:["Full mixed review","Typing test #3","AI roleplay: describe a friend","All 5 quiz types","Milestone: صديقي الجديد"]},
+  ]},
+  {month:7, title:"Conditional & Hypothetical Language", cefr:"A2→B1", weeks:[
+    {week:1, title:"Real Conditionals", lessons:["إذا + present","إذا + past","Practice sentences","Quiz","Vocabulary"]},
+    {week:2, title:"Unreal Conditionals", lessons:["لو construction","Hypothetical scenarios","Quiz","Speaking","Vocabulary"]},
+    {week:3, title:"Wishes & Hopes", lessons:["أتمنى / أرجو / ليت","Practice dialogues","Quiz","Speaking","Vocabulary"]},
+    {week:4, title:"Month 7 Milestone", lessons:["Mixed review","AI roleplay: hypothetical discussion","Quiz","Speaking","Milestone: لو كنت غنياً"]},
+  ]},
+  {month:8, title:"News, Media & Formal Register", cefr:"B1", weeks:[
+    {week:1, title:"Formal/News Vocabulary", lessons:["Register shift intro","News vocabulary set 1","News vocabulary set 2","Quiz","Vocabulary"]},
+    {week:2, title:"Passive Voice", lessons:["المبني للمجهول forms","Practice sentences","Quiz","Speaking","Vocabulary"]},
+    {week:3, title:"Reading News", lessons:["Simplified headlines","Short articles","Comprehension quiz","Vocabulary","Speaking"]},
+    {week:4, title:"Month 8 Milestone", lessons:["Article + summary exercise","AI tool: Summarize","Quiz","Speaking","Milestone review"]},
+  ]},
+  {month:9, title:"Medical Arabic & Specialized Domains", cefr:"B1", weeks:[
+    {week:1, title:"Body & Symptoms", lessons:["Body systems vocab","Describing pain/illness","Quiz","Speaking","Vocabulary"]},
+    {week:2, title:"Doctor & Pharmacy", lessons:["Pharmacy dialogue","Doctor visit roleplay","Quiz","Speaking","Vocabulary"]},
+    {week:3, title:"Academic Arabic", lessons:["University vocabulary","Exams & lectures","Quiz","Speaking","Vocabulary"]},
+    {week:4, title:"Month 9 Milestone", lessons:["Full dialogue practice","AI roleplay: patient/doctor","Comprehensive quiz","Speaking","Milestone: في المستشفى"]},
+  ]},
+  {month:10, title:"Complex Texts & Debate", cefr:"B1→B1/B2", weeks:[
+    {week:1, title:"Complex Texts", lessons:["Multi-paragraph B1 stories","Comprehension without translation","Quiz","Speaking","Vocabulary"]},
+    {week:2, title:"Debate Structures", lessons:["Presenting arguments","Counter-arguments","Quiz","Speaking","Vocabulary"]},
+    {week:3, title:"Idioms & Proverbs", lessons:["Top 50 idioms set 1","Top 50 idioms set 2","Quiz","Speaking","Vocabulary"]},
+    {week:4, title:"Month 10 Milestone", lessons:["Structured debate roleplay","Quiz","Speaking","Vocabulary","Milestone story"]},
+  ]},
+  {month:11, title:"Religion, Culture & Nuance", cefr:"B1/B2", weeks:[
+    {week:1, title:"Religious & Cultural Vocabulary", lessons:["Islamic calendar terms","Cultural phrases","Quiz","Speaking","Vocabulary"]},
+    {week:2, title:"Tone & Humor", lessons:["Humor markers","Sarcasm cues","Quiz","Speaking","Vocabulary"]},
+    {week:3, title:"Formal Writing", lessons:["Advanced connectors","Essay paragraph structure","Quiz","Speaking","Vocabulary"]},
+    {week:4, title:"Month 11 Milestone", lessons:["Write a short essay","AI tool: Correct grammar","Quiz","Speaking","Milestone: عادات وتقاليد"]},
+  ]},
+  {month:12, title:"Integration & Mastery Review", cefr:"B1/B2", weeks:[
+    {week:1, title:"Full Grammar Review", lessons:["All tenses & moods","Passive voice review","إعراب basics","Quiz","Vocabulary"]},
+    {week:2, title:"Free Conversation Week", lessons:["AI conversation only","Mixed topics 1","Mixed topics 2","Mixed topics 3","Mixed topics 4"]},
+    {week:3, title:"Vocabulary Consolidation", lessons:["Top 3000 review 1","Top 3000 review 2","Weak-word gap fill","Quiz","Vocabulary"]},
+    {week:4, title:"FINAL MILESTONE", lessons:["Final B2 story (unassisted)","Final timed typing test","AI interview simulation","Full progress report","Celebration 🎉"]},
+  ]},
+];
+const TOTAL_DAYS = 240;
+const QUARTER_BOUNDARIES = [59, 119, 179, 239]; // last day of Months 3, 6, 9, 12
+function isConsolidationDay(dayIdx){ return dayIdx===4; } // Day 5 of every week
+function isQuarterBoundary(g){ return QUARTER_BOUNDARIES.includes(g); }
+const LESSON_TABS = ["Learn","Read","Write","Speak","Vocabulary","Quiz"];
+
+const SAMPLE_VOCAB = [
+  {ar:"بَيْت", en:"House", ex:"هذا بيتي.", pic:"🏠"},
+  {ar:"كِتاب", en:"Book", ex:"أقرأ كتاباً.", pic:"📖"},
+  {ar:"قَلَم", en:"Pen", ex:"القلم على الطاولة.", pic:"🖊️"},
+  {ar:"شَمْس", en:"Sun", ex:"الشمس مشرقة اليوم.", pic:"☀️"},
+  {ar:"مَاء", en:"Water", ex:"أشرب الماء.", pic:"💧"},
+  {ar:"طَعَام", en:"Food", ex:"الطعام لذيذ.", pic:"🍽️"},
+  {ar:"مَدْرَسَة", en:"School", ex:"أذهب إلى المدرسة.", pic:"🏫"},
+  {ar:"صَدِيق", en:"Friend", ex:"صديقي لطيف.", pic:"🧑‍🤝‍🧑"},
+  {ar:"سَيَّارَة", en:"Car", ex:"السيارة جديدة.", pic:"🚗"},
+  {ar:"وَقْت", en:"Time", ex:"ليس لدي وقت.", pic:"⏰"},
+  {ar:"أُم", en:"Mother", ex:"أمي تطبخ.", pic:"👩"},
+  {ar:"أَب", en:"Father", ex:"أبي يعمل.", pic:"👨"},
+  {ar:"يَوْم", en:"Day", ex:"كل يوم جديد.", pic:"🗓️"},
+  {ar:"مَدِينَة", en:"City", ex:"المدينة كبيرة.", pic:"🏙️"},
+  {ar:"سُوق", en:"Market", ex:"أذهب إلى السوق.", pic:"🛒"},
+];
+const TYPING_TEXTS = {
+  current:"أَنَا أَتَعَلَّمُ اللُّغَةَ الْعَرَبِيَّةَ كُلَّ يَوْمٍ. أَقْرَأُ وَأَكْتُبُ وَأَسْتَمِعُ إِلَى الْكَلِمَاتِ الْجَدِيدَةِ.",
+  beginner:"فِي الصَّبَاحِ، أَسْتَيْقِظُ مُبَكِّراً وَأَشْرَبُ الْقَهْوَةَ. ثُمَّ أَذْهَبُ إِلَى الْعَمَلِ بِالسَّيَّارَةِ أَوْ بِالْحَافِلَةِ.",
+  daily:"تَذْهَبُ الْعَائِلَةُ إِلَى السُّوقِ يَوْمَ الْجُمُعَةِ لِشِرَاءِ الْخُضَارِ وَالْفَوَاكِهِ الطَّازَجَةِ لِلْأُسْبُوعِ الْقَادِمِ.",
+  medical:"يَشْعُرُ الْمَرِيضُ بِأَلَمٍ فِي الْمَعِدَةِ مُنْذُ يَوْمَيْنِ، وَقَرَّرَ الذَّهَابَ إِلَى الطَّبِيبِ لِفَحْصٍ شَامِلٍ."
+};
+const YOUTUBE_RECS = {
+  1: {channel:"AlifBee — Learn Arabic the Smart Way", url:"https://www.youtube.com/@AlifBee_learnArabic", note:"Their \u201cLearn Arabic from Scratch\u201d series walks through the alphabet step by step — a direct match for this month.", search:"AlifBee Arabic alphabet"},
+  2: {channel:"ArabicPod101", url:"https://www.youtube.com/@ArabicPod101", note:"Clear, well-paced playlists on present-tense verbs and noun/adjective agreement.", search:"ArabicPod101 present tense"},
+  3: {channel:"Madinah Arabic", url:"https://www.youtube.com/@MadinahArabicTuition", note:"Their beginner Arabic Conversation Course playlist (~70 videos) covers daily-life topics like this month.", search:"Madinah Arabic daily routine"},
+  4: {channel:"Arabic With Toqa", url:null, note:"Clear MSA grammar breakdowns — especially good for past-tense conjugation.", search:"Arabic With Toqa past tense"},
+  5: {channel:"Easy Arabic", url:"https://www.youtube.com/@EasyArabicVideos", note:"Real street interviews in Egyptian, Tunisian & Palestinian Arabic with dual subtitles — matches this month's MSA vs. colloquial focus.", search:"Easy Arabic street interview"},
+  6: {channel:"Learn Arabic with Maha", url:null, note:"Warm, conversational videos — a good fit for description and emotion vocabulary.", search:"Learn Arabic with Maha"},
+  7: {channel:"ArabicPod101", url:"https://www.youtube.com/@ArabicPod101", note:"Grammar breakdowns on conditionals — إذا and لو.", search:"ArabicPod101 conditional grammar"},
+  8: {channel:"Al Jazeera Learning Arabic", url:"https://www.youtube.com/@AlJazeeraLearningArabic", note:"The official Al Jazeera Arabic-learning channel — the clearest free source of formal, broadcast-register MSA.", search:"Al Jazeera Learning Arabic Level 1"},
+  9: {channel:"General search (thin coverage)", url:null, note:"Dedicated Medical Arabic content is rare on YouTube — search directly for vocabulary/dialogues, and use Kalimah4Arabic for the academic-Arabic half of the month.", search:"Arabic medical vocabulary doctor patient dialogue"},
+  10:{channel:"Madinah Arabic", url:"https://www.youtube.com/@MadinahArabicTuition", note:"Their \u201cLearn Arabic by Movie Clips\u201d series is built for exactly this level of listening practice.", search:"Madinah Arabic movie clips"},
+  11:{channel:"Qasid Institute", url:"https://www.youtube.com/results?search_query=Qasid+Institute+Arabic", note:"A respected Jordan-based Arabic institute — classical/MSA with real cultural and religious context.", search:"Qasid Institute Arabic"},
+  12:{channel:"Review everything", url:null, note:"No new channel this month — go back through every channel used this year and confirm you can follow along without subtitles.", search:"Arabic listening practice advanced"},
+};
+function renderYoutubeRecs(){
+  const sel = document.getElementById('ytMonthSel');
+  const curMonth = dayAtIndex(state.progressIndex).month;
+  if(!sel.dataset.built){
+    sel.innerHTML = CURRICULUM.map(m=>`<option value="${m.month}">Month ${m.month} — ${m.title}</option>`).join('');
+    sel.dataset.built = '1';
+  }
+  sel.value = sel.value || curMonth;
+  if(!Array.from(sel.options).some(o=>o.selected)) sel.value = curMonth;
+  renderYoutubeRec();
+}
+function renderYoutubeRec(){
+  const sel = document.getElementById('ytMonthSel');
+  const month = parseInt(sel.value || dayAtIndex(state.progressIndex).month);
+  const rec = YOUTUBE_RECS[month];
+  const isCurrent = month === dayAtIndex(state.progressIndex).month;
+  document.getElementById('ytRecCard').innerHTML = `
+    ${isCurrent ? '<span class="pill active" style="margin-bottom:10px; display:inline-block;">Your current month</span>' : ''}
+    <div style="font-weight:700; font-size:15px; margin-bottom:4px;">${rec.channel}</div>
+    <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:12px;">${rec.note}</p>
+    <div class="row" style="gap:8px;">
+      ${rec.url ? `<button class="btn flex1" onclick="window.open('${rec.url}','_blank')">Open Channel</button>` : ''}
+      <button class="btn ${rec.url?'ghost':''} flex1" onclick="window.open('https://www.youtube.com/results?search_query=${encodeURIComponent(rec.search)}','_blank')">🔍 Search: ${rec.search}</button>
+    </div>`;
+}
+const AI_TOOLS = [
+  {label:"Explain current lesson", prompt:"Can you explain the current lesson to me in simple terms?"},
+  {label:"Give examples", prompt:"Give me 5 example sentences using this week's vocabulary."},
+  {label:"Quiz me", prompt:"Quiz me on this week's material."},
+  {label:"Story", prompt:"Tell me a short story using this week's vocabulary."},
+  {label:"Medical Arabic", prompt:"Teach me some useful Medical Arabic phrases."},
+  {label:"Grammar", prompt:"Explain the grammar point from this week in detail."},
+  {label:"Vocabulary", prompt:"List new vocabulary related to this week's topic."},
+  {label:"Roleplay", prompt:"Let's roleplay a conversation related to this week's topic."},
+  {label:"Conversation", prompt:"Let's have a free conversation in Arabic at my level."},
+  {label:"Harder", prompt:"Make the last exercise harder."},
+  {label:"Translate", prompt:"Translate the following into Arabic: "},
+  {label:"Correct grammar", prompt:"Please correct the grammar in this text: "},
+  {label:"Summarize", prompt:"Summarize the following text in Arabic and English: "},
+];
+
+/* ================= DAY INDEX HELPERS ================= */
+function indexOfDay(month, week, dayIdx){ return (month-1)*20 + (week-1)*5 + dayIdx; }
+function dayAtIndex(g){
+  g = Math.max(0, Math.min(TOTAL_DAYS-1, g));
+  const month = Math.floor(g/20)+1;
+  const rem = g%20;
+  const week = Math.floor(rem/5)+1;
+  const dayIdx = rem%5;
+  const title = CURRICULUM[month-1].weeks[week-1].lessons[dayIdx];
+  return {month, week, dayIdx, title, g};
+}
+/* ---- Alphabet + Month 1 letters-first content ---- */
+const LETTER_INFO = {
+  'ا':{name:'Alif', sound:"a long 'aa' sound, like in 'father'", ex:'أَسَد', exEn:'lion', exTranslit:'asad'},
+  'ب':{name:'Ba', sound:"like English 'b'", ex:'بَيْت', exEn:'house', exTranslit:'bayt'},
+  'ت':{name:'Ta', sound:"like English 't'", ex:'تُفَّاح', exEn:'apple', exTranslit:'tuffaah'},
+  'ث':{name:'Tha', sound:"like 'th' in 'think'", ex:'ثَعْلَب', exEn:'fox', exTranslit:"tha'lab"},
+  'ج':{name:'Jeem', sound:"like 'j' in 'jam'", ex:'جَمَل', exEn:'camel', exTranslit:'jamal'},
+  'ح':{name:"Ha (heavy)", sound:'a breathy H from deep in the throat', ex:'حِصَان', exEn:'horse', exTranslit:'hisaan'},
+  'خ':{name:'Kha', sound:"like 'ch' in Scottish 'loch'", ex:'خُبْز', exEn:'bread', exTranslit:'khubz'},
+  'د':{name:'Dal', sound:"like English 'd'", ex:'دُبّ', exEn:'bear', exTranslit:'dubb'},
+  'ذ':{name:'Dhal', sound:"like 'th' in 'this'", ex:'ذِئْب', exEn:'wolf', exTranslit:"dhi'b"},
+  'ر':{name:'Ra', sound:'a rolled/trilled r', ex:'رَجُل', exEn:'man', exTranslit:'rajul'},
+  'ز':{name:'Zay', sound:"like English 'z'", ex:'زَهْرَة', exEn:'flower', exTranslit:'zahra'},
+  'س':{name:'Seen', sound:"like English 's'", ex:'سَمَك', exEn:'fish', exTranslit:'samak'},
+  'ش':{name:'Sheen', sound:"like 'sh' in 'ship'", ex:'شَمْس', exEn:'sun', exTranslit:'shams'},
+  'ص':{name:'Saad (heavy)', sound:"a deep, emphatic 's'", ex:'صَقْر', exEn:'falcon', exTranslit:'saqr'},
+  'ض':{name:'Daad (heavy)', sound:"a deep, emphatic 'd'", ex:'ضَبَاب', exEn:'fog', exTranslit:'dabaab'},
+  'ط':{name:'Taa (heavy)', sound:"a deep, emphatic 't'", ex:'طَائِر', exEn:'bird', exTranslit:"taa'ir"},
+  'ظ':{name:'Dhaa (heavy)', sound:"a deep, emphatic 'th'", ex:'ظَبْي', exEn:'gazelle', exTranslit:'dhabi'},
+  'ع':{name:'Ayn', sound:'a tight throat sound with no English equivalent', ex:'عَيْن', exEn:'eye', exTranslit:"'ayn"},
+  'غ':{name:'Ghayn', sound:"like a French/Arabic guttural 'r'", ex:'غُرَاب', exEn:'crow', exTranslit:'ghuraab'},
+  'ف':{name:'Fa', sound:"like English 'f'", ex:'فِيل', exEn:'elephant', exTranslit:'feel'},
+  'ق':{name:'Qaf', sound:"a deep 'k' from the back of the throat", ex:'قِطَّة', exEn:'cat', exTranslit:'qitta'},
+  'ك':{name:'Kaf', sound:"like English 'k'", ex:'كَلْب', exEn:'dog', exTranslit:'kalb'},
+  'ل':{name:'Lam', sound:"like English 'l'", ex:'لَيْمُون', exEn:'lemon', exTranslit:'laymoon'},
+  'م':{name:'Meem', sound:"like English 'm'", ex:'مَاء', exEn:'water', exTranslit:"maa'"},
+  'ن':{name:'Noon', sound:"like English 'n'", ex:'نَجْمَة', exEn:'star', exTranslit:'najma'},
+  'ه':{name:'Ha (light)', sound:"like English 'h'", ex:'هِلَال', exEn:'crescent moon', exTranslit:'hilaal'},
+  'و':{name:'Waw', sound:"like 'w' (or long 'oo')", ex:'وَرْدَة', exEn:'rose', exTranslit:'warda'},
+  'ي':{name:'Ya', sound:"like 'y' (or long 'ee')", ex:'يَد', exEn:'hand', exTranslit:'yad'},
+};
+const NON_CONNECTORS = ['ا','د','ذ','ر','ز','و']; // never connect to the letter AFTER them
+function letterConnectsForward(ch){ return !NON_CONNECTORS.includes(ch); }
+function getLetterForms(ch){
+  const isolated = ch;
+  const final = 'م' + ch;           // preceded by a connector -> shows the final/end form
+  if(!letterConnectsForward(ch)){
+    return { isolated, initial:null, medial:null, final, connects:false };
+  }
+  const initial = ch + 'ن';         // followed by a connector -> shows the initial/start form
+  const medial = 'م' + ch + 'ن';    // sandwiched -> shows the medial/middle form
+  return { isolated, initial, medial, final, connects:true };
+}
+function lettersToItems(letters){
+  return letters.map(ch=>{
+    const info = LETTER_INFO[ch] || {name:ch, sound:'', ex:'', exEn:'', exTranslit:''};
+    return {ar:ch, en:info.name + (info.sound?' — '+info.sound:''), pic:'🔤', forms:getLetterForms(ch), exAr:info.ex, exEn:info.exEn, exTranslit:info.exTranslit};
+  });
+}
+function extractLetters(title){
+  const m = title.match(/[\u0621-\u064A]/g);
+  return m ? [...new Set(m)] : [];
+}
+// Month 1 (global day index 0-19): each day mapped to letters-first, vowel, connection, or first-word content
+const MONTH1_DAYS = CURRICULUM[0].weeks.flatMap(w=>w.lessons);
+const MONTH1_OVERRIDES = {};
+MONTH1_DAYS.forEach((title,i)=>{
+  const letters = extractLetters(title);
+  if(letters.length){ MONTH1_OVERRIDES[i] = {type:'letters', items:lettersToItems(letters)}; }
+});
+// Reviews: pull together every letter taught earlier in that same week
+[4,9].forEach(i=>{
+  const weekStart = i - 4;
+  let combined = [];
+  for(let k=weekStart;k<i;k++){ if(MONTH1_OVERRIDES[k]) combined = combined.concat(MONTH1_OVERRIDES[k].items); }
+  if(combined.length) MONTH1_OVERRIDES[i] = {type:'letters', items: combined};
+});
+// Week 2, Day 4 — connection rules (no raw letters in the title)
+MONTH1_OVERRIDES[8] = {type:'connection', items: [0,1,2,3,5,6,7].flatMap(k=>MONTH1_OVERRIDES[k].items).map(it=>({
+  ar: it.ar, en: it.en, pic:'🔗', forms: getLetterForms(it.ar)
+}))};
+// Week 3 — vowels & diacritics
+MONTH1_OVERRIDES[10] = {type:'vowels', items:[
+  {ar:'بَ', en:'"ba" — fatha (short a)', ex:'A small diagonal stroke above the letter.', pic:'◌َ'},
+  {ar:'بِ', en:'"bi" — kasra (short i)', ex:'A small diagonal stroke below the letter.', pic:'◌ِ'},
+  {ar:'بُ', en:'"bu" — damma (short u)', ex:"A small curl above the letter, like a tiny و.", pic:'◌ُ'},
+]};
+MONTH1_OVERRIDES[11] = {type:'vowels', items:[
+  {ar:'بْ', en:'"b" — sukoon (no vowel)', ex:'A small circle above the letter means: no vowel sound.', pic:'◌ْ'},
+  {ar:'بَتْ', en:'"bat" — a full closed syllable', ex:'Combine a vowelled letter with a sukoon letter to build syllables.', pic:'◌ْ'},
+  {ar:'كَتَبْتَ', en:'"katabta" — you wrote', ex:'Real words are just chains of these small syllables.', pic:'◌ْ'},
+]};
+MONTH1_OVERRIDES[12] = {type:'vowels', items:[
+  {ar:'بّ', en:'"bb" — shadda (doubled letter)', ex:'A small w-shape above the letter means the consonant is held/doubled.', pic:'◌ّ'},
+  {ar:'كِتَابًا', en:'"kitaaban" — tanween fatha (an)', ex:'Two fathas stacked add an "n" sound, common at the end of indefinite nouns.', pic:'ـً'},
+  {ar:'كِتَابٍ', en:'"kitaabin" — tanween kasra (in)', ex:'Two kasras stacked.', pic:'ـٍ'},
+  {ar:'كِتَابٌ', en:'"kitaabun" — tanween damma (un)', ex:'Two dammas stacked.', pic:'ـٌ'},
+]};
+MONTH1_OVERRIDES[13] = {type:'vowels', items:[
+  {ar:'بَا', en:'"baa" — long aa', ex:'A fatha followed by ا stretches the vowel.', pic:'ا'},
+  {ar:'بُو', en:'"boo" — long oo', ex:'A damma followed by و stretches the vowel.', pic:'و'},
+  {ar:'بِي', en:'"bee" — long ee', ex:'A kasra followed by ي stretches the vowel.', pic:'ي'},
+  {ar:'أَ / إِ', en:'Hamza on Alif — a seated "a" or "i" sound', ex:'أَنَا (I) / إِلَى (to)', pic:'ء'},
+  {ar:'ؤُ', en:'Hamza on Waw — a seated "u" sound', ex:'سُؤَال (question)', pic:'ء'},
+  {ar:'ئِ', en:'Hamza on Ya — a seated "i" sound (dots are dropped under it)', ex:'قَارِئ (reader)', pic:'ء'},
+  {ar:'ء', en:'Hamza alone, no seat — used between vowels or at a word\u2019s end', ex:'شَيْء (thing)', pic:'ء'},
+]};
+MONTH1_OVERRIDES[14] = {type:'vowels', items: [10,11,12,13].flatMap(k=>MONTH1_OVERRIDES[k].items.slice(0,2))};
+// Week 4 — first real words & phrases
+MONTH1_OVERRIDES[15] = {type:'words', items:[
+  {ar:'السَّلَامُ عَلَيْكُمْ', en:'Peace be upon you (hello)', ex:'The standard Islamic/Arabic greeting.', pic:'👋'},
+  {ar:'صَبَاحُ الْخَيْرِ', en:'Good morning', ex:'Reply with صَبَاحُ النُّورِ.', pic:'🌅'},
+  {ar:'مَسَاءُ الْخَيْرِ', en:'Good evening', ex:'Reply with مَسَاءُ النُّورِ.', pic:'🌆'},
+  {ar:'شُكْرًا', en:'Thank you', ex:'شُكْرًا جَزِيلاً = thank you very much.', pic:'🙏'},
+  {ar:'مَعَ السَّلَامَة', en:'Goodbye', ex:'Literally "with safety."', pic:'👋'},
+]};
+MONTH1_OVERRIDES[16] = {type:'words', items:[
+  {ar:'وَاحِد', en:'One', ex:'١', pic:'1️⃣'},
+  {ar:'اِثْنَان', en:'Two', ex:'٢', pic:'2️⃣'},
+  {ar:'ثَلَاثَة', en:'Three', ex:'٣', pic:'3️⃣'},
+  {ar:'أَرْبَعَة', en:'Four', ex:'٤', pic:'4️⃣'},
+  {ar:'خَمْسَة', en:'Five', ex:'٥', pic:'5️⃣'},
+  {ar:'سِتَّة', en:'Six', ex:'٦', pic:'6️⃣'},
+  {ar:'سَبْعَة', en:'Seven', ex:'٧', pic:'7️⃣'},
+  {ar:'ثَمَانِيَة', en:'Eight', ex:'٨', pic:'8️⃣'},
+  {ar:'تِسْعَة', en:'Nine', ex:'٩', pic:'9️⃣'},
+  {ar:'عَشَرَة', en:'Ten', ex:'١٠', pic:'🔟'},
+  {ar:'الْأَحَد', en:'Sunday', ex:'The Arabic week starts on Sunday.', pic:'🗓️'},
+  {ar:'الْإِثْنَيْن', en:'Monday', ex:'', pic:'🗓️'},
+  {ar:'الثُّلَاثَاء', en:'Tuesday', ex:'', pic:'🗓️'},
+  {ar:'الْأَرْبِعَاء', en:'Wednesday', ex:'', pic:'🗓️'},
+  {ar:'الْخَمِيس', en:'Thursday', ex:'', pic:'🗓️'},
+  {ar:'الْجُمُعَة', en:'Friday', ex:'The day of communal prayer.', pic:'🗓️'},
+  {ar:'السَّبْت', en:'Saturday', ex:'', pic:'🗓️'},
+]};
+MONTH1_OVERRIDES[17] = {type:'words', items:[
+  {ar:'أَنَا', en:'I', ex:'أَنَا طَالِب. (I am a student.)', pic:'🙋'},
+  {ar:'أَنْتَ', en:'You (to a man)', ex:'أَنْتَ طَيِّب. (You are kind.)', pic:'👤'},
+  {ar:'أَنْتِ', en:'You (to a woman)', ex:'أَنْتِ طَيِّبَة.', pic:'👤'},
+  {ar:'هُوَ', en:'He', ex:'هُوَ مُدَرِّس. (He is a teacher.)', pic:'👨'},
+  {ar:'هِيَ', en:'She', ex:'هِيَ طَبِيبَة. (She is a doctor.)', pic:'👩'},
+]};
+MONTH1_OVERRIDES[18] = {type:'words', items:[
+  {ar:'مَنْ', en:'Who?', ex:'مَنْ أَنْتَ؟ (Who are you?)', pic:'❓'},
+  {ar:'مَا', en:'What?', ex:'مَا هَذَا؟ (What is this?)', pic:'❓'},
+  {ar:'أَيْنَ', en:'Where?', ex:'أَيْنَ الْبَيْت؟ (Where is the house?)', pic:'❓'},
+  {ar:'كَيْفَ', en:'How?', ex:'كَيْفَ حَالُكَ؟ (How are you?)', pic:'❓'},
+]};
+MONTH1_OVERRIDES[19] = {type:'words', items:[
+  {ar:'يَوْم', en:'Day', ex:'أَوَّلُ يَوْمٍ. (First day.)', pic:'🗓️'},
+  {ar:'مَدْرَسَة', en:'School', ex:'أَذْهَبُ إِلَى الْمَدْرَسَةِ.', pic:'🏫'},
+  {ar:'صَدِيق', en:'Friend', ex:'قَابَلْتُ صَدِيقًا جَدِيدًا.', pic:'🧑‍🤝‍🧑'},
+  {ar:'سَعِيد', en:'Happy', ex:'أَنَا سَعِيدٌ الْيَوْمَ.', pic:'😊'},
+]};
+
+function formsRowHTML(forms, big){
+  if(!forms) return '';
+  const fs = big ? '18px' : '15px';
+  const gap = big ? '14px' : '10px';
+  if(forms.connects===false){
+    return `<div style="margin-top:6px; font-size:11px; color:var(--ink-soft); display:flex; gap:${gap}; flex-wrap:wrap; align-items:center;">
+      <span>Isolated <span class="arabic" style="font-size:${fs};">${forms.isolated}</span></span>
+      <span>Final <span class="arabic" style="font-size:${fs};">${forms.final}</span></span>
+      <span style="color:var(--danger); font-weight:600;">never connects forward</span>
+    </div>`;
+  }
+  return `<div style="margin-top:6px; font-size:11px; color:var(--ink-soft); display:flex; gap:${gap}; flex-wrap:wrap;">
+    <span>Isolated <span class="arabic" style="font-size:${fs};">${forms.isolated}</span></span>
+    <span>Initial <span class="arabic" style="font-size:${fs};">${forms.initial}</span></span>
+    <span>Medial <span class="arabic" style="font-size:${fs};">${forms.medial}</span></span>
+    <span>Final <span class="arabic" style="font-size:${fs};">${forms.final}</span></span>
+  </div>`;
+}
+function hasArabicChars(s){ return /[\u0600-\u06FF]/.test(s||''); }
+function extractArabicPortion(s){
+  if(!s) return null;
+  const matches = s.match(/[\u0600-\u06FF][\u0600-\u06FF0-9\s.,،؟!\-]*/g);
+  if(!matches || !matches.length) return null;
+  const longest = matches.sort((a,b)=>b.length-a.length)[0];
+  return longest.trim().replace(/[.,،؟!\-\s]+$/,'').trim();
+}
+function safeSpeakAttr(s){ return (s||'').replace(/'/g,''); }
+function exLineHTML(vv){
+  if(vv.exAr){
+    return `<div class="vocab-en" style="opacity:.85; margin-top:2px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+      <span class="arabic" style="font-size:15px;">${vv.exAr}</span>
+      ${vv.exTranslit?`<span style="font-style:italic;">(${vv.exTranslit})</span>`:''}
+      ${vv.exEn?`<span>— ${vv.exEn}</span>`:''}
+      <button class="speak-btn" style="width:22px;height:22px;font-size:11px;" onclick="speakArabic('${safeSpeakAttr(vv.exAr)}')">🔊</button>
+    </div>`;
+  }
+  if(vv.ex){
+    const isAr = hasArabicChars(vv.ex);
+    const spoken = isAr ? (extractArabicPortion(vv.ex) || vv.ex) : null;
+    return `<div class="vocab-en ${isAr?'arabic':''}" style="opacity:.85; margin-top:2px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+      <span>${vv.ex}</span>
+      ${isAr?`<button class="speak-btn" style="width:22px;height:22px;font-size:11px;" onclick="speakArabic('${safeSpeakAttr(spoken)}')">🔊</button>`:''}
+    </div>`;
+  }
+  return '';
+}
+function getVocabForDay(g){
+  if(MONTH1_OVERRIDES[g]) return MONTH1_OVERRIDES[g].items;
+  const n=SAMPLE_VOCAB.length; const out=[]; for(let i=0;i<5;i++) out.push(SAMPLE_VOCAB[(g+i)%n]); return out;
+}
+function getConsolidationReview(v){
+  // 100% of this week's Days 1-4
+  let items = [];
+  for(let d=0; d<4; d++){ items = items.concat(getVocabForDay(indexOfDay(v.month, v.week, d))); }
+  // ~50% of last week's items
+  let lastWeekMonth = v.month, lastWeek = v.week - 1;
+  if(lastWeek < 1){ lastWeekMonth = v.month - 1; lastWeek = 4; }
+  if(lastWeekMonth >= 1){
+    let lw = [];
+    for(let d=0; d<4; d++){ lw = lw.concat(getVocabForDay(indexOfDay(lastWeekMonth, lastWeek, d))); }
+    items = items.concat(lw.filter((_,i)=>i%2===0));
+  }
+  // ~20% sample of last month
+  const lastMonth = v.month - 1;
+  if(lastMonth >= 1){
+    let lm = [];
+    for(let w=1; w<=4; w++){ for(let d=0; d<4; d++){ lm = lm.concat(getVocabForDay(indexOfDay(lastMonth, w, d))); } }
+    items = items.concat(lm.filter((_,i)=>i%5===0));
+  }
+  // de-duplicate by Arabic text
+  const seen = new Set(); const out = [];
+  items.forEach(it=>{ if(!seen.has(it.ar)){ seen.add(it.ar); out.push(it); } });
+  return out;
+}
+function getWeekChecklist(month, week){
+  const m = CURRICULUM.find(x=>x.month===month);
+  const w = m.weeks.find(x=>x.week===week);
+  return w.lessons.slice(0,4).map((t,i)=>({ key:`m${month}w${week}d${i}`, label:`Can you confidently use: ${t}?` }));
+}
+function getDayContentType(g){ return MONTH1_OVERRIDES[g] ? MONTH1_OVERRIDES[g].type : 'words'; }
+function getReadingForDay(g){ const keys=Object.keys(TYPING_TEXTS); return TYPING_TEXTS[keys[g%keys.length]]; }
+
+/* ================= STATE ================= */
+let state = {
+  theme:'dark', fontSize:16, ttsSpeed:1, provider:'auto',
+  keys:{gemini:'',grok:'',deepseek:''},
+  xp:0, streak:0, level:1, wordsLearned:0, storiesRead:0, aiChats:0, typingTests:0,
+  progressIndex:0,        // number of days completed (0 = on Week1 Day1, nothing done yet)
+  viewIndex:0,            // which day is currently being viewed in Lessons
+  lastActiveDate:null,
+  curTab:0, cardIndex:0, favCards:[],
+  notebook:[], chat:[], heat:[], typingHistory:[],
+  nbFilter:'all', reviewFilter:'due',
+  openMonths:{1:true},
+  checklist:{}, quarterlyPassed:{},
+};
+async function loadState(){
+  try{
+    const r = await window.storage.get('app-state-v2', false);
+    if(r && r.value){ state = Object.assign(state, JSON.parse(r.value)); }
+  }catch(e){ /* first run */ }
+  if(!state.heat || state.heat.length < 91){ state.heat = Array.from({length:91}, ()=>0); }
+  applyTheme(); applyFontSize();
+}
+async function saveState(){ try{ await window.storage.set('app-state-v2', JSON.stringify(state), false); }catch(e){ console.warn('Save failed', e); } }
+
+/* ================= NAV ================= */
+let currentView = 'home';
+function renderNav(){
+  const nav = document.getElementById('bottomnav');
+  nav.innerHTML = NAV.map(n=>`<button class="navitem ${n.id===currentView?'active':''}" onclick="goView('${n.id}')"><span class="ic">${n.ic}</span>${n.label}</button>`).join('');
+}
+function goView(id){
+  currentView = id;
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  renderNav();
+  if(id==='map') renderMap();
+  if(id==='lessons') renderLessonsView();
+  if(id==='review') renderReview();
+  if(id==='cards') renderCard();
+  if(id==='notebook') renderNotebook();
+  if(id==='dashboard') renderDashboard();
+  if(id==='ai') renderChat();
+  if(id==='youtube') renderYoutubeRecs();
+  const bar = document.getElementById('chatbarWrap');
+  if(bar) bar.style.display = id==='ai' ? 'block' : 'none';
+}
+function continueLearning(){
+  state.viewIndex = state.progressIndex;
+  goView('lessons');
+}
+
+/* ================= THEME / FONT / TTS ================= */
+function applyTheme(){
+  document.documentElement.setAttribute('data-theme', state.theme);
+  document.getElementById('themeToggleBtn').textContent = state.theme==='dark' ? '☀️' : '🌙';
+  const dt = document.getElementById('darkToggle'); if(dt) dt.classList.toggle('on', state.theme==='dark');
+  if(currentView==='map') renderMap();
+  if(currentView==='review') renderHeat('reviewHeatmap');
+  if(currentView==='dashboard') renderHeat('dashHeatmap');
+}
+function toggleTheme(){ state.theme = state.theme==='dark' ? 'light' : 'dark'; applyTheme(); saveState(); }
+function applyFontSize(){
+  document.documentElement.style.setProperty('--fs-base', state.fontSize+'px');
+  const slider = document.getElementById('fontSlider'); if(slider) slider.value = state.fontSize;
+  const lbl = document.getElementById('fontSizeLbl'); if(lbl) lbl.textContent = state.fontSize<=14?'Small':state.fontSize>=19?'Large':'Medium';
+}
+function setFontSize(v){ state.fontSize = parseInt(v); applyFontSize(); saveState(); }
+function setTtsSpeed(v){ state.ttsSpeed = parseFloat(v); document.getElementById('ttsSpeedLbl').textContent = parseFloat(v).toFixed(1)+'×'; saveState(); }
+let _voicesCache = [];
+let _voicesReady = false;
+function hasNativeTTS(){
+  return !!(window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TextToSpeech);
+}
+function loadVoices(){
+  return new Promise(resolve=>{
+    if(!('speechSynthesis' in window)){ resolve([]); return; }
+    let v = window.speechSynthesis.getVoices();
+    if(v && v.length){ _voicesCache=v; _voicesReady=true; resolve(v); return; }
+    const onReady = () => {
+      _voicesCache = window.speechSynthesis.getVoices();
+      _voicesReady = true;
+      resolve(_voicesCache);
+    };
+    window.speechSynthesis.onvoiceschanged = onReady;
+    setTimeout(()=>{ if(!_voicesReady) onReady(); }, 1200);
+  });
+}
+async function speakArabic(text){
+  if(!text) return;
+  const clean = text.replace(/<[^>]*>/g,'').trim();
+  if(!clean) return;
+
+  // Native Android TTS (works inside the installed app)
+  if(hasNativeTTS()){
+    try{
+      await window.Capacitor.Plugins.TextToSpeech.speak({
+        text: clean,
+        lang: 'ar-SA',
+        rate: state.ttsSpeed || 1,
+        pitch: 1.0,
+        volume: 1.0,
+        category: 'ambient',
+      });
+    }catch(e){
+      console.error('Native TTS error', e);
+      toast('Audio failed to play. Your device may not have an Arabic voice installed — check Settings → Test Audio.');
+    }
+    return;
+  }
+
+  // Web Speech API fallback (browser preview only — Android WebView doesn't support this)
+  if(!('speechSynthesis' in window)){
+    toast("This browser doesn't support text-to-speech.");
+    return;
+  }
+  try{
+    window.speechSynthesis.cancel();
+    const voices = _voicesReady ? _voicesCache : await loadVoices();
+    const u = new SpeechSynthesisUtterance(clean);
+    u.rate = state.ttsSpeed || 1;
+    const arVoice = voices.find(v=>v.lang && v.lang.toLowerCase().startsWith('ar'));
+    if(arVoice){ u.voice = arVoice; u.lang = arVoice.lang; }
+    else{ u.lang = 'ar-SA'; }
+    u.onerror = ()=>{ toast('Audio failed to play. Your device may not have an Arabic voice installed — check Settings → Test Audio.'); };
+    window.speechSynthesis.speak(u);
+    if(!arVoice) toast('No Arabic voice found on this device — using default voice.');
+  }catch(e){
+    console.error('TTS error', e);
+    toast("Audio isn't available right now.");
+  }
+}
+async function testAudioDiagnostic(){
+  const out = document.getElementById('audioTestResult');
+  out.textContent = 'Checking voices…';
+
+  if(hasNativeTTS()){
+    try{
+      let langInfo = '';
+      try{
+        const langs = await window.Capacitor.Plugins.TextToSpeech.getSupportedLanguages();
+        const list = langs && langs.languages ? langs.languages : [];
+        const arLangs = list.filter(l=>l.toLowerCase().startsWith('ar'));
+        langInfo = `Found ${list.length} language(s) on this device, ${arLangs.length} Arabic${arLangs.length?': '+arLangs.join(', '):''}.`;
+      }catch(e){ langInfo = 'Native TTS is active (language list unavailable on this device).'; }
+      out.textContent = '✅ Using native Android text-to-speech. ' + langInfo;
+      speakArabic('مَرْحَباً، هَلْ يَعْمَلُ الصَّوْتُ؟');
+    }catch(e){
+      out.textContent = '❌ Native TTS plugin found but failed to respond: ' + e.message;
+    }
+    return;
+  }
+
+  if(!('speechSynthesis' in window)){ out.textContent = '❌ This browser has no text-to-speech support at all — this is expected in Android WebView; install the app for native audio.'; return; }
+  const voices = await loadVoices();
+  const arVoices = voices.filter(v=>v.lang && v.lang.toLowerCase().startsWith('ar'));
+  out.textContent = `Found ${voices.length} voice(s) total, ${arVoices.length} Arabic voice(s)${arVoices.length?': '+arVoices.map(v=>v.name).join(', '):''}.`;
+  speakArabic('مَرْحَباً، هَلْ يَعْمَلُ الصَّوْتُ؟');
+}
+
+/* ================= HOME ================= */
+function renderHome(){
+  const cur = dayAtIndex(state.progressIndex);
+  document.getElementById('homeEyebrow').textContent = `Today's Plan · Week ${cur.week}, Day ${cur.dayIdx+1} (Month ${cur.month})`;
+  document.getElementById('homeArabicTitle').textContent = cur.title.match(/[\u0600-\u06FF]+/) ? cur.title : 'أَهْلاً وَسَهْلاً';
+  document.getElementById('homeSub').textContent = cur.title;
+  document.getElementById('homePlanLesson').textContent = `${cur.title} · Learn`;
+  document.getElementById('homeProgressFill').style.width = Math.round((state.progressIndex/TOTAL_DAYS)*100)+'%';
+  document.getElementById('homeCTA').textContent = state.progressIndex===0 ? 'Start Learning →' : 'Continue Learning →';
+  document.getElementById('statXP').textContent = state.xp;
+  document.getElementById('statStreak').textContent = state.streak;
+  document.getElementById('statWords').textContent = state.wordsLearned;
+  document.getElementById('statLevel').textContent = state.level;
+}
+
+/* ================= MAP ================= */
+function renderMap(){
+  const el = document.getElementById('mapList');
+  el.innerHTML = CURRICULUM.map(m=>{
+    const monthDone = indexOfDay(m.month,4,4) < state.progressIndex;
+    const monthCurrent = dayAtIndex(state.progressIndex).month === m.month;
+    const open = !!state.openMonths[m.month];
+    return `<div class="month-acc ${open?'open':''}" id="monthAcc${m.month}">
+      <div class="month-acc-head" onclick="toggleMonth(${m.month})">
+        <div class="month-num ${monthDone?'done':monthCurrent?'current':''}">${m.month}</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:14px;">${m.title}</div>
+          <div style="font-size:11.5px; color:var(--ink-soft);">CEFR ${m.cefr}</div>
+        </div>
+        <div style="font-size:12px; color:var(--ink-soft);">${open?'▲':'▼'}</div>
+      </div>
+      <div class="month-acc-body">
+        ${m.weeks.map(w=>`
+          <div class="week-block">
+            <div class="week-label">Week ${w.week} — ${w.title}</div>
+            <div class="day-row">
+              ${w.lessons.map((l,di)=>{
+                const g = indexOfDay(m.month,w.week,di);
+                const st = g < state.progressIndex ? 'done' : g===state.progressIndex ? 'current' : 'locked';
+                return `<div class="day-dot ${st}" onclick="mapJump(${g})" title="${l}">${st==='done'?'✓':(di+1)}</div>`;
+              }).join('')}
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+function toggleMonth(m){ state.openMonths[m] = !state.openMonths[m]; saveState(); renderMap(); }
+function mapJump(g){
+  const d = dayAtIndex(g);
+  if(g > state.progressIndex){ toast('That day is still locked 🔒'); return; }
+  state.viewIndex = g;
+  goView('lessons');
+}
+
+/* ================= LESSONS ================= */
+function renderLessonsView(){
+  const v = dayAtIndex(state.viewIndex);
+  const mSel = document.getElementById('selMonth');
+  mSel.innerHTML = CURRICULUM.map(m=>`<option value="${m.month}" ${m.month===v.month?'selected':''}>Month ${m.month} — ${m.title}</option>`).join('');
+  populateWeekSelect(v.month, v.week);
+  renderDayStrip();
+  renderLessonBody();
+}
+function populateWeekSelect(month, selWeek){
+  const m = CURRICULUM.find(x=>x.month===month);
+  const wSel = document.getElementById('selWeek');
+  wSel.innerHTML = m.weeks.map(w=>`<option value="${w.week}" ${w.week===selWeek?'selected':''}>Week ${w.week} — ${w.title}</option>`).join('');
+}
+function onMonthChange(){
+  const month = parseInt(document.getElementById('selMonth').value);
+  state.viewIndex = indexOfDay(month, 1, 0);
+  populateWeekSelect(month, 1);
+  renderDayStrip(); renderLessonBody(); saveState();
+}
+function onWeekChange(){
+  const v = dayAtIndex(state.viewIndex);
+  const week = parseInt(document.getElementById('selWeek').value);
+  state.viewIndex = indexOfDay(v.month, week, 0);
+  renderDayStrip(); renderLessonBody(); saveState();
+}
+function renderDayStrip(){
+  const v = dayAtIndex(state.viewIndex);
+  const m = CURRICULUM.find(x=>x.month===v.month);
+  const w = m.weeks.find(x=>x.week===v.week);
+  document.getElementById('dayStrip').innerHTML = w.lessons.map((l,di)=>{
+    const g = indexOfDay(v.month, v.week, di);
+    const st = g < state.progressIndex ? 'done' : g===state.progressIndex ? 'current' : g===state.viewIndex ? '' : (g>state.progressIndex?'locked':'');
+    const cls = (g < state.progressIndex ? 'done ' : g===state.progressIndex ? 'current ' : 'locked ') + (g===state.viewIndex ? '' : '');
+    const border = g===state.viewIndex ? 'box-shadow:0 0 0 2px var(--accent) inset;' : '';
+    return `<div class="day-dot ${g<state.progressIndex?'done':g===state.progressIndex?'current':'locked'}" style="flex:1;${border}" onclick="jumpToDay(${di})">${g<state.progressIndex?'✓':'D'+(di+1)}</div>`;
+  }).join('');
+}
+function jumpToDay(dayIdx){
+  const v = dayAtIndex(state.viewIndex);
+  state.viewIndex = indexOfDay(v.month, v.week, dayIdx);
+  renderDayStrip(); renderLessonBody(); saveState();
+}
+function renderLessonBody(){
+  const v = dayAtIndex(state.viewIndex);
+  const locked = v.g > state.progressIndex;
+  document.getElementById('lessonUnlocked').classList.toggle('hidden', locked);
+  document.getElementById('lessonLocked').classList.toggle('hidden', !locked);
+  if(locked){
+    document.getElementById('lockedTitle').textContent = `Week ${v.week}, Day ${v.dayIdx+1} is locked`;
+    return;
+  }
+  if(isConsolidationDay(v.dayIdx)){
+    renderConsolidationBody(v);
+    return;
+  }
+  document.getElementById('lessonTabs').innerHTML = LESSON_TABS.map((t,i)=>
+    `<button class="ltab ${i===state.curTab?'active':''}" onclick="setLessonTab(${i})">${t}</button>`).join('');
+
+  const content = document.getElementById('lessonContent');
+  const tab = LESSON_TABS[state.curTab];
+  const vocab = getVocabForDay(v.g);
+  const ctype = getDayContentType(v.g);
+  const reading = getReadingForDay(v.g);
+  const nounLabel = ctype==='letters' ? 'letters' : ctype==='vowels' ? 'vowel marks' : ctype==='connection' ? 'examples' : 'words';
+  let html = `<div class="card"><div class="section-title" style="margin-top:0;">Week ${v.week} · Day ${v.dayIdx+1} · Month ${v.month} — ${v.title}</div>`;
+
+  if(tab==='Learn'){
+    if(ctype==='letters'){
+      html += `<p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:12px;">Tap each letter to hear it, then look at the example word.</p>`;
+    }
+    if(ctype==='connection'){
+      html += `<p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:12px;">Every letter you've learned so far, shown in all its shapes. The six letters marked "never connects forward" (ا د ذ ر ز و) only ever have an isolated or final form.</p>`;
+    }
+    html += vocab.map(vv=>`
+      <div class="vocab-item" style="flex-wrap:wrap;">
+        <div class="vocab-pic ${ctype==='letters'||ctype==='vowels'?'arabic':''}" style="${ctype==='letters'||ctype==='vowels'?'font-size:22px;':''}">${vv.pic}</div>
+        <div style="flex:1; min-width:0;"><div class="vocab-ar arabic" style="${ctype==='letters'?'font-size:28px;':''}">${vv.ar}</div><div class="vocab-en">${vv.en}</div>${exLineHTML(vv)}${vv.forms?formsRowHTML(vv.forms, ctype==='connection'):''}</div>
+        <button class="speak-btn" onclick="speakArabic('${vv.ar}')">🔊</button>
+      </div>`).join('');
+  } else if(tab==='Read'){
+    if(ctype==='letters' || ctype==='vowels' || ctype==='connection'){
+      html += `<p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:12px;">Read each one aloud, then check yourself with the audio.</p>`;
+      html += vocab.map(vv=>`
+        <div class="vocab-item">
+          <div class="vocab-ar arabic" style="font-size:26px;">${vv.ar}</div>
+          <div><div class="vocab-en">${vv.en}</div></div>
+          <button class="speak-btn" onclick="speakArabic('${vv.ar}')">🔊</button>
+        </div>`).join('');
+    } else {
+      html += `<p class="arabic" style="font-size:19px; line-height:2;">${reading}</p>
+        <button class="btn ghost" style="margin-top:12px;" onclick="speakArabic(\`${reading}\`)">🔊 Listen</button>`;
+    }
+  } else if(tab==='Write'){
+    html += `<p style="font-size:13px; color:var(--ink-soft); margin-bottom:10px;">Trace over the ${ctype==='letters'||ctype==='vowels'?'letter':'word'} with your finger, then try it from memory.</p>
+      <div id="traceControls">
+        <div class="row" style="align-items:center; margin-bottom:8px;">
+          <button class="icon-btn" onclick="traceStep(-1)">◀</button>
+          <div style="flex:1; text-align:center; font-size:13px; color:var(--ink-soft);" id="traceLabel"></div>
+          <button class="icon-btn" onclick="traceStep(1)">▶</button>
+        </div>
+        <div id="traceCanvasWrap" style="position:relative; border:1.5px dashed var(--card-border); border-radius:var(--radius); overflow:hidden; touch-action:none;">
+          <canvas id="traceCanvas" style="width:100%; height:240px; display:block; background:var(--card);"></canvas>
+        </div>
+        <div class="row" style="gap:8px; margin-top:10px;">
+          <button class="btn ghost flex1" onclick="clearTrace()">🧹 Clear</button>
+          <button class="btn ghost flex1" onclick="speakArabic(traceItems[traceIdx].ar)">🔊 Hear it</button>
+          <button class="btn ghost flex1" onclick="goView('practice'); openTyping();">⌨️ Typing →</button>
+        </div>
+      </div>
+      <textarea class="note-editor arabic hidden" id="freeWriteArea" placeholder="اكتب هنا للتدرّب..." style="margin-top:10px;"></textarea>
+      <button class="btn ghost small" style="margin-top:12px;" onclick="toggleFreeWrite()" id="freeWriteToggleBtn">Switch to free writing</button>`;
+  } else if(tab==='Speak'){
+    html += vocab.slice(0,5).map(vv=>`<div class="vocab-item"><div class="vocab-ar arabic" style="${ctype==='letters'?'font-size:24px;':''}">${vv.ar}</div><div class="vocab-en" style="margin-left:8px;">${vv.en}</div><button class="speak-btn" onclick="speakArabic('${vv.ar}')">🔊</button></div>`).join('');
+    html += `<p style="font-size:12px; color:var(--ink-soft); margin-top:10px;">Repeat each one aloud after listening. (Android TTS only — speech recognition removed for reliability.)</p>`;
+  } else if(tab==='Vocabulary'){
+    html += `<p style="font-size:13px; color:var(--ink-soft); margin-bottom:10px;">Practice today's ${vocab.length} ${nounLabel} as flashcards:</p>
+      <button class="btn" onclick="goView('cards')">Open Flashcards →</button>`;
+  } else if(tab==='Quiz'){
+    html += `<p style="font-size:13px; color:var(--ink-soft); margin-bottom:12px;">Choose a quiz type for this lesson:</p>
+      <div class="row wrap" style="gap:8px;">
+        <button class="pill" onclick="openQuizFromLesson('mcq')">MCQ</button>
+        <button class="pill" onclick="openQuizFromLesson('fillblank')">Fill Blank</button>
+        <button class="pill" onclick="openQuizFromLesson('arrange')">Arrange</button>
+        <button class="pill" onclick="openQuizFromLesson('matching')">Matching</button>
+        <button class="pill" onclick="openQuizFromLesson('listening')">Dictation</button>
+        <button class="pill" onclick="askAIQuiz()">AI Quiz</button>
+      </div>`;
+  }
+  html += `</div>`;
+  content.innerHTML = html;
+  if(tab==='Write'){ setupWriteTab(vocab); }
+
+  const btn = document.getElementById('markCompleteBtn');
+  if(v.g === state.progressIndex){
+    btn.classList.remove('hidden');
+    btn.disabled = false;
+    btn.textContent = "✓ Mark Today's Lesson Complete";
+  } else {
+    btn.classList.add('hidden');
+  }
+}
+function renderConsolidationBody(v){
+  document.getElementById('lessonTabs').innerHTML = '';
+  const content = document.getElementById('lessonContent');
+  const isMilestone = v.week===4;
+  const reviewItems = getConsolidationReview(v);
+  const checklist = getWeekChecklist(v.month, v.week);
+  const savedChecks = state.checklist || {};
+
+  let html = `<div class="card">
+    <div class="section-title" style="margin-top:0;">Week ${v.week} Consolidation · Month ${v.month}</div>
+    <p style="font-size:13px; color:var(--ink-soft);">${isMilestone ? 'Milestone week — this also wraps up the whole month.' : 'No new material today. This is where this week actually sticks.'}</p>
+  </div>`;
+
+  html += `<div class="section-title">Self-Check</div><div class="card">`;
+  html += checklist.map(c=>`
+    <div class="setting-row">
+      <div class="setting-lbl" style="font-size:13px;">${c.label}</div>
+      <div class="toggle ${savedChecks[c.key]?'on':''}" onclick="toggleChecklist('${c.key}')"><div class="knob"></div></div>
+    </div>`).join('');
+  html += `</div>`;
+
+  html += `<div class="section-title">Review Deck (this week + last week + a slice of last month)</div><div class="card" style="padding:0;">`;
+  html += reviewItems.length ? reviewItems.map(it=>`
+    <div class="plan-item" style="padding:12px 16px;">
+      <div class="vocab-ar arabic" style="width:auto; margin-right:10px;">${it.ar}</div>
+      <div class="plan-text"><div class="s">${it.en}</div></div>
+      <button class="speak-btn" onclick="speakArabic('${it.ar}')">🔊</button>
+    </div>`).join('') : `<div class="empty">Nothing to pull back yet — you're still in your first week.</div>`;
+  html += `</div>`;
+
+  html += `<div class="row" style="gap:8px; margin-bottom:14px;">
+    <button class="btn ghost flex1" onclick="goView('cards')">🗂️ Flashcard Review</button>
+    <button class="btn ghost flex1" onclick="openQuizFromLesson('mcq')">🎯 Quick Quiz</button>
+  </div>`;
+
+  if(isMilestone){
+    html += `<div class="card"><div class="section-title" style="margin-top:0;">Milestone</div><p style="font-size:13px; color:var(--ink-soft);">Read this month's milestone story and try the AI roleplay before marking complete.</p>
+      <button class="btn secondary" style="margin-top:10px;" onclick="goView('ai'); sendPresetPrompt('Give me the milestone story for this month, then roleplay it with me.')">Open Milestone with AI →</button></div>`;
+  }
+
+  content.innerHTML = html;
+
+  const btn = document.getElementById('markCompleteBtn');
+  if(v.g === state.progressIndex){
+    btn.classList.remove('hidden');
+    btn.disabled = false;
+    btn.textContent = isQuarterBoundary(v.g) ? '📝 Take Quarterly Mastery Check' : "✓ Mark Today's Lesson Complete";
+  } else {
+    btn.classList.add('hidden');
+  }
+}
+function toggleChecklist(key){
+  if(!state.checklist) state.checklist = {};
+  state.checklist[key] = !state.checklist[key];
+  saveState();
+  const v = dayAtIndex(state.viewIndex);
+  renderConsolidationBody(v);
+}
+function setLessonTab(i){ state.curTab = i; renderLessonBody(); saveState(); }
+
+/* ================= TRACING CANVAS ================= */
+let traceItems = [], traceIdx = 0, traceCtx = null, traceDrawing = false, traceLastX = 0, traceLastY = 0;
+function setupWriteTab(items){
+  traceItems = items && items.length ? items : [{ar:'ا', en:'letter'}];
+  traceIdx = 0;
+  requestAnimationFrame(initTraceCanvas);
+}
+function traceStep(dir){
+  if(!traceItems.length) return;
+  traceIdx = (traceIdx + dir + traceItems.length) % traceItems.length;
+  initTraceCanvas();
+}
+function initTraceCanvas(){
+  const canvas = document.getElementById('traceCanvas');
+  if(!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  if(rect.width===0){ requestAnimationFrame(initTraceCanvas); return; }
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(dpr, dpr);
+  traceCtx = ctx;
+  drawGuide();
+  attachTraceEvents(canvas);
+  const lbl = document.getElementById('traceLabel');
+  if(lbl) lbl.textContent = `${traceIdx+1} / ${traceItems.length} — ${traceItems[traceIdx].en}`;
+}
+function drawGuide(){
+  const canvas = document.getElementById('traceCanvas');
+  if(!canvas || !traceCtx) return;
+  const rect = canvas.getBoundingClientRect();
+  const ctx = traceCtx;
+  ctx.clearRect(0,0,rect.width,rect.height);
+  ctx.save();
+  const size = Math.min(rect.width*0.45, rect.height*0.7, 130);
+  ctx.font = `${size}px Amiri, serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const guideColor = getComputedStyle(document.documentElement).getPropertyValue('--card-border').trim() || '#ccc';
+  ctx.fillStyle = guideColor;
+  ctx.globalAlpha = 1;
+  ctx.fillText(traceItems[traceIdx].ar, rect.width/2, rect.height/2);
+  ctx.restore();
+}
+function clearTrace(){ drawGuide(); }
+function getTracePos(canvas, e){
+  const rect = canvas.getBoundingClientRect();
+  const cx = (e.touches && e.touches[0]) ? e.touches[0].clientX : e.clientX;
+  const cy = (e.touches && e.touches[0]) ? e.touches[0].clientY : e.clientY;
+  return { x: cx-rect.left, y: cy-rect.top };
+}
+function attachTraceEvents(canvas){
+  canvas.onpointerdown = (e)=>{ e.preventDefault(); traceDrawing=true; const p=getTracePos(canvas,e); traceLastX=p.x; traceLastY=p.y; };
+  canvas.onpointermove = (e)=>{
+    if(!traceDrawing || !traceCtx) return;
+    e.preventDefault();
+    const p = getTracePos(canvas,e);
+    const ctx = traceCtx;
+    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#8B5E3C';
+    ctx.lineWidth = 7;
+    ctx.lineCap='round'; ctx.lineJoin='round';
+    ctx.beginPath();
+    ctx.moveTo(traceLastX,traceLastY);
+    ctx.lineTo(p.x,p.y);
+    ctx.stroke();
+    traceLastX=p.x; traceLastY=p.y;
+  };
+  canvas.onpointerup = ()=>{ traceDrawing=false; };
+  canvas.onpointerleave = ()=>{ traceDrawing=false; };
+  canvas.onpointercancel = ()=>{ traceDrawing=false; };
+}
+function toggleFreeWrite(){
+  const controls = document.getElementById('traceControls');
+  const area = document.getElementById('freeWriteArea');
+  const btn = document.getElementById('freeWriteToggleBtn');
+  if(!controls || !area || !btn) return;
+  const goingFree = !area.classList.contains('hidden') ? false : true;
+  if(goingFree){
+    controls.classList.add('hidden');
+    area.classList.remove('hidden');
+    btn.textContent = 'Switch back to tracing';
+  } else {
+    controls.classList.remove('hidden');
+    area.classList.add('hidden');
+    btn.textContent = 'Switch to free writing';
+    requestAnimationFrame(initTraceCanvas);
+  }
+}
+function openQuizFromLesson(type){ goView('practice'); openQuiz(type); }
+function goPracticeTab(tabName){
+  state.viewIndex = state.progressIndex;
+  state.curTab = LESSON_TABS.indexOf(tabName);
+  goView('lessons');
+}
+function stepDay(dir){
+  let g = state.viewIndex + dir;
+  g = Math.max(0, Math.min(TOTAL_DAYS-1, g));
+  state.viewIndex = g;
+  const v = dayAtIndex(g);
+  document.getElementById('selMonth').value = v.month;
+  populateWeekSelect(v.month, v.week);
+  renderDayStrip(); renderLessonBody(); saveState();
+}
+function markDayComplete(){
+  const g = state.progressIndex;
+  if(isQuarterBoundary(g) && !(state.quarterlyPassed && state.quarterlyPassed[g])){
+    openQuarterlyCheck(g);
+    return;
+  }
+  completeCurrentDay();
+}
+function completeCurrentDay(){
+  const v = dayAtIndex(state.progressIndex);
+  state.xp += 25;
+  state.wordsLearned += 5;
+  if(v.title.toLowerCase().includes('milestone')) state.storiesRead += 1;
+  const today = new Date().toDateString();
+  if(state.lastActiveDate !== today){
+    state.streak += 1;
+    state.lastActiveDate = today;
+    state.heat[state.heat.length-1] = Math.min(3, (state.heat[state.heat.length-1]||0)+2);
+  }
+  state.level = 1 + Math.floor(state.xp / 200);
+  state.progressIndex = Math.min(TOTAL_DAYS, state.progressIndex + 1);
+  state.viewIndex = state.progressIndex;
+  saveState();
+  toast('Lesson complete! +25 XP 🎉');
+  const nv = dayAtIndex(state.viewIndex);
+  document.getElementById('selMonth').value = nv.month;
+  populateWeekSelect(nv.month, nv.week);
+  renderDayStrip(); renderLessonBody();
+}
+
+/* ================= QUARTERLY MASTERY CHECK ================= */
+const QUARTER_LABELS = {59:'Quarter 1 (Months 1–3)', 119:'Quarter 2 (Months 4–6)', 179:'Quarter 3 (Months 7–9)', 239:'Quarter 4 (Months 10–12) — Final'};
+let qState = { g:null, order:[], idx:0, score:0 };
+function openQuarterlyCheck(g){
+  qState = { g, order:['mcq','matching','fillblank','arrange','listening','reading'], idx:0, score:0 };
+  document.getElementById('quarterlyModalBg').classList.add('open');
+  renderQuarterlyQuestion();
+}
+function renderQuarterlyQuestion(){
+  const body = document.getElementById('quarterlyBody');
+  if(qState.idx >= qState.order.length){
+    const pass = qState.score >= Math.ceil(qState.order.length * 0.6);
+    body.innerHTML = `
+      <div style="text-align:center; padding:10px 0;">
+        <div style="font-size:34px; margin-bottom:8px;">${pass ? '🎉' : '📚'}</div>
+        <h4>${pass ? 'Quarter passed!' : 'Not quite there yet'}</h4>
+        <p style="font-size:13px; color:var(--ink-soft); margin:8px 0 16px;">Score: ${qState.score} / ${qState.order.length}${pass ? ' — ready for the next quarter.' : ' — revisit your weak weeks in Review, then try again.'}</p>
+        ${pass
+          ? `<button class="btn" onclick="passQuarterly()">Continue →</button>`
+          : `<div class="row" style="gap:8px;"><button class="btn ghost flex1" onclick="closeQuarterly()">Review First</button><button class="btn flex1" onclick="openQuarterlyCheck(qState.g)">Try Again</button></div>`}
+      </div>`;
+    return;
+  }
+  const type = qState.order[qState.idx];
+  const q = QUIZ_BANK[type];
+  body.innerHTML = `
+    <div style="font-size:11.5px; color:var(--ink-soft); margin-bottom:6px;">Question ${qState.idx+1} of ${qState.order.length} · ${QUARTER_LABELS[qState.g] || ''}</div>
+    <p class="arabic" style="font-size:16px; margin-bottom:12px;">${q.q}</p>
+    ${q.speak?`<button class="btn ghost" style="margin-bottom:10px;" onclick="speakArabic('${q.speak}')">🔊 Play audio</button>`:''}
+    <div id="qOpts">${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="answerQuarterly(this,${i},${q.correct})">${o}</button>`).join('')}</div>`;
+}
+function answerQuarterly(btn, idx, correct){
+  document.querySelectorAll('#qOpts .quiz-opt').forEach((b,i)=>{
+    b.style.pointerEvents='none';
+    if(i===correct) b.classList.add('correct');
+    else if(b===btn) b.classList.add('wrong');
+  });
+  if(idx===correct) qState.score++;
+  setTimeout(()=>{ qState.idx++; renderQuarterlyQuestion(); }, 700);
+}
+function passQuarterly(){
+  if(!state.quarterlyPassed) state.quarterlyPassed = {};
+  state.quarterlyPassed[qState.g] = true;
+  saveState();
+  document.getElementById('quarterlyModalBg').classList.remove('open');
+  completeCurrentDay();
+}
+function closeQuarterly(){ document.getElementById('quarterlyModalBg').classList.remove('open'); }
+
+/* ================= QUIZ (Practice) ================= */
+const QUIZ_BANK = {
+  mcq:{q:"What does «بَيْت» mean?", opts:["House","Book","Car","Water"], correct:0},
+  matching:{q:"Match: «مَاء» means...", opts:["Water","Sun","Friend","School"], correct:0},
+  fillblank:{q:"أَنَا ____ إِلَى الْمَدْرَسَةِ. (I go to school)", opts:["أذهب","يذهب","تذهب","نذهب"], correct:0},
+  arrange:{q:"Arrange: بيتي / هذا / جميل  → 'This is my beautiful house'", opts:["هذا بيتي جميل","بيتي هذا جميل","جميل هذا بيتي","بيتي جميل هذا"], correct:0},
+  listening:{q:"Listen and choose what you heard:", opts:["بَيْت","بِنْت","بَيْد","نَيْت"], correct:0, speak:"بَيْت"},
+  reading:{q:"«الشَّمْسُ مُشْرِقَةٌ الْيَوْمَ» means:", opts:["The sun is shining today","The moon is bright tonight","It is raining today","The sky is clear"], correct:0},
+};
+function openQuiz(type){
+  document.getElementById('typingArea').classList.add('hidden');
+  const q = QUIZ_BANK[type] || QUIZ_BANK.mcq;
+  const holder = document.getElementById('quizHolder');
+  holder.innerHTML = `
+    <div class="section-title">Quiz — ${type}</div>
+    <div class="card">
+      <p class="arabic" style="font-size:17px; margin-bottom:14px;">${q.q}</p>
+      ${q.speak?`<button class="btn ghost" style="margin-bottom:12px;" onclick="speakArabic('${q.speak}')">🔊 Play audio</button>`:''}
+      <div id="quizOpts">${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="answerQuiz(this,${i},${q.correct})">${o}</button>`).join('')}</div>
+    </div>`;
+  holder.scrollIntoView({behavior:'smooth'});
+}
+function answerQuiz(btn, idx, correct){
+  document.querySelectorAll('#quizOpts .quiz-opt').forEach((b,i)=>{
+    b.style.pointerEvents='none';
+    if(i===correct) b.classList.add('correct');
+    else if(b===btn) b.classList.add('wrong');
+  });
+  if(idx===correct){ state.xp += 10; saveState(); }
+}
+function askAIQuiz(){ goView('ai'); sendPresetPrompt("Quiz me on this week's vocabulary with a mix of question types."); }
+
+/* ================= TYPING ================= */
+let typingStart = null;
+function openTyping(){
+  document.getElementById('quizHolder').innerHTML = '';
+  document.getElementById('typingArea').classList.remove('hidden');
+  document.getElementById('typingArea').scrollIntoView({behavior:'smooth'});
+  loadTypingText();
+}
+function loadTypingText(){
+  const cat = document.getElementById('typingCat').value;
+  document.getElementById('typingSource').textContent = TYPING_TEXTS[cat];
+  document.getElementById('typingInput').value = '';
+  document.getElementById('typingCatLabel').textContent = document.getElementById('typingCat').selectedOptions[0].textContent;
+  typingStart = Date.now();
+  updateTypingStats();
+}
+function updateTypingStats(){
+  const src = document.getElementById('typingSource').textContent.trim();
+  const typed = document.getElementById('typingInput').value;
+  const elapsed = Math.max(1, (Date.now()-typingStart)/1000);
+  const words = typed.trim().length ? typed.trim().split(/\s+/).length : 0;
+  const wpm = Math.round((words / elapsed) * 60);
+  let correctChars = 0;
+  for(let i=0;i<typed.length;i++){ if(typed[i]===src[i]) correctChars++; }
+  const acc = typed.length ? Math.round((correctChars/typed.length)*100) : 100;
+  document.getElementById('wpmOut').textContent = wpm;
+  document.getElementById('accOut').textContent = acc+'%';
+  document.getElementById('timeOut').textContent = Math.round(elapsed)+'s';
+}
+function finishTyping(){
+  const wpm = document.getElementById('wpmOut').textContent;
+  const acc = document.getElementById('accOut').textContent;
+  const time = document.getElementById('timeOut').textContent;
+  state.typingHistory.unshift({date:new Date().toLocaleDateString(), wpm, acc, time});
+  state.typingHistory = state.typingHistory.slice(0,10);
+  state.typingTests += 1;
+  renderTypingHistory(); saveState(); toast('Typing result saved');
+}
+function renderTypingHistory(){
+  const el = document.getElementById('typingHistory');
+  if(!state.typingHistory.length){ el.innerHTML = '<div class="empty">No typing tests recorded yet.</div>'; return; }
+  el.innerHTML = state.typingHistory.map(h=>`<div class="plan-item"><div class="plan-ic">⌨️</div><div class="plan-text"><div class="t">${h.wpm} WPM · ${h.acc} accuracy</div><div class="s">${h.date} · ${h.time}</div></div></div>`).join('');
+}
+
+/* ================= CARDS ================= */
+function renderCard(){
+  const vocab = getVocabForDay(state.progressIndex);
+  const idx = state.cardIndex % vocab.length;
+  const c = vocab[idx];
+  document.getElementById('cardFrontAr').textContent = c.ar;
+  document.getElementById('cardBackEn').textContent = c.en;
+  document.getElementById('cardBackEx').textContent = c.exAr ? `مثال: ${c.exAr}${c.exEn?' — '+c.exEn:''}` : (c.ex ? 'مثال: '+c.ex : '');
+  window._cardExSpeak = c.exAr || (c.ex && hasArabicChars(c.ex) ? (extractArabicPortion(c.ex)||c.ex) : '');
+  document.getElementById('cardBackExSpeak').classList.toggle('hidden', !window._cardExSpeak);
+  document.getElementById('cardProgressLbl').textContent = `Card ${idx+1} of ${vocab.length}`;
+  document.getElementById('flipCard').classList.remove('flipped');
+  document.getElementById('favBtn').textContent = state.favCards.includes(c.ar) ? '★ Favorited' : '☆ Favorite';
+}
+function flipCard(){ document.getElementById('flipCard').classList.toggle('flipped'); }
+function toggleFavCard(){
+  const vocab = getVocabForDay(state.progressIndex);
+  const c = vocab[state.cardIndex % vocab.length];
+  const p = state.favCards.indexOf(c.ar);
+  if(p>-1) state.favCards.splice(p,1); else state.favCards.push(c.ar);
+  renderCard(); saveState();
+}
+function nextCard(rating){
+  if(rating==='easy'){ state.xp += 5; }
+  state.cardIndex++;
+  renderCard(); saveState();
+  document.getElementById('statXP').textContent = state.xp;
+}
+
+/* ================= REVIEW ================= */
+function setReviewFilter(f){ state.reviewFilter = f; renderReview(); saveState(); }
+function renderReview(){
+  document.querySelectorAll('[data-rf]').forEach(b=>b.classList.toggle('active', b.dataset.rf===state.reviewFilter));
+  const el = document.getElementById('reviewDeck');
+  const vocab = getVocabForDay(state.progressIndex);
+  const list = state.reviewFilter==='due' ? vocab : state.reviewFilter==='weak' ? vocab.slice(0,3) : vocab.slice(0,2);
+  el.innerHTML = `<div class="card" style="padding:0;">` + list.map(v=>`
+    <div class="plan-item" style="padding:14px 16px;">
+      <div class="plan-ic">${v.pic}</div>
+      <div class="plan-text"><div class="t arabic">${v.ar}</div><div class="s">${v.en}</div></div>
+      <button class="speak-btn" onclick="speakArabic('${v.ar}')">🔊</button>
+    </div>`).join('') + `</div>`;
+  renderHeat('reviewHeatmap');
+}
+function renderHeat(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.innerHTML = state.heat.map(v=>`<div class="heatcell" style="background:${heatColor(v)}"></div>`).join('');
+}
+function heatColor(v){
+  const light = ['#E7D4A9','#D8B978','#B4862F','#7C4A2D'];
+  const dark = ['#0B1B36','#1E3A63','#3E6FA0','#8FD3FF'];
+  return (state.theme==='dark'?dark:light)[v];
+}
+
+/* ================= NOTEBOOK ================= */
+let editingNoteId = null;
+function setNbFilter(f){ state.nbFilter=f; renderNotebook(); }
+function renderNotebook(){
+  document.querySelectorAll('[data-nf]').forEach(b=>b.classList.toggle('active', b.dataset.nf===state.nbFilter));
+  const search = (document.getElementById('nbSearch')?.value || '').toLowerCase();
+  const sort = document.getElementById('nbSort')?.value || 'new';
+  let list = state.notebook.filter(n => (state.nbFilter==='all' || n.tag===state.nbFilter) && (n.title+n.body).toLowerCase().includes(search));
+  list = list.slice().sort((a,b)=> sort==='new' ? new Date(b.date)-new Date(a.date) : new Date(a.date)-new Date(b.date));
+  const el = document.getElementById('notebookList');
+  if(!list.length){ el.innerHTML = '<div class="empty"><div class="ic">📓</div>No notes yet — tap "New Note" to add one.</div>'; return; }
+  el.innerHTML = list.map(n=>`
+    <div class="card note-card" onclick="openNoteEditor('${n.id}')">
+      <div class="row"><b style="font-size:14px;">${n.title||'Untitled'}</b><span class="pill">${n.tag}</span></div>
+      <div class="snippet">${n.body}</div>
+    </div>`).join('');
+}
+function openNoteEditor(id){
+  editingNoteId = id;
+  const modal = document.getElementById('noteModalBg');
+  if(id){
+    const n = state.notebook.find(x=>x.id===id);
+    document.getElementById('noteModalTitle').textContent = 'Edit Note';
+    document.getElementById('noteTitleInput').value = n.title;
+    document.getElementById('noteBodyInput').value = n.body;
+    document.getElementById('noteTagInput').value = n.tag;
+    document.getElementById('noteDeleteBtn').classList.remove('hidden');
+  } else {
+    document.getElementById('noteModalTitle').textContent = 'New Note';
+    document.getElementById('noteTitleInput').value = '';
+    document.getElementById('noteBodyInput').value = '';
+    document.getElementById('noteTagInput').value = 'lesson';
+    document.getElementById('noteDeleteBtn').classList.add('hidden');
+  }
+  modal.classList.add('open');
+}
+function closeNoteEditor(){ document.getElementById('noteModalBg').classList.remove('open'); }
+function saveNote(){
+  const title = document.getElementById('noteTitleInput').value.trim() || 'Untitled';
+  const body = document.getElementById('noteBodyInput').value.trim();
+  const tag = document.getElementById('noteTagInput').value;
+  if(editingNoteId){
+    const n = state.notebook.find(x=>x.id===editingNoteId);
+    n.title=title; n.body=body; n.tag=tag;
+  } else {
+    state.notebook.unshift({id:'n'+Date.now(), title, body, tag, date:new Date().toISOString()});
+  }
+  closeNoteEditor(); renderNotebook(); saveState();
+}
+function deleteNote(){ state.notebook = state.notebook.filter(n=>n.id!==editingNoteId); closeNoteEditor(); renderNotebook(); saveState(); }
+function exportNotebook(){
+  const blob = new Blob([JSON.stringify(state.notebook,null,2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='notebook-export.json'; a.click();
+}
+
+/* ================= DASHBOARD ================= */
+function renderDashboard(){
+  document.getElementById('dXP').textContent = state.xp;
+  document.getElementById('dLevel').textContent = state.level;
+  document.getElementById('dWords').textContent = state.wordsLearned;
+  document.getElementById('dStreak').textContent = state.streak;
+  document.getElementById('dDaysDone').textContent = `${state.progressIndex} / ${TOTAL_DAYS}`;
+  document.getElementById('dStories').textContent = state.storiesRead;
+  document.getElementById('dChats').textContent = state.aiChats;
+  document.getElementById('dTyping').textContent = state.typingTests;
+  renderHeat('dashHeatmap');
+  const badges = [
+    {ic:'🔥', lbl:'7-day streak', earned: state.streak>=7},
+    {ic:'📖', lbl:'First story', earned: state.storiesRead>=1},
+    {ic:'🗂️', lbl:'100 words', earned: state.wordsLearned>=100},
+    {ic:'🏅', lbl:'Level 5', earned: state.level>=5},
+    {ic:'⌨️', lbl:'Typing pro', earned: state.typingTests>=5},
+    {ic:'💬', lbl:'10 AI chats', earned: state.aiChats>=10},
+    {ic:'📓', lbl:'Note taker', earned: state.notebook.length>=5},
+    {ic:'🎓', lbl:'Week 1 done', earned: state.progressIndex>=5},
+  ];
+  document.getElementById('badgeGrid').innerHTML = badges.map(b=>`
+    <div class="badge ${b.earned?'earned':''}"><div class="ic">${b.ic}</div><div class="lbl">${b.lbl}</div></div>`).join('');
+}
+
+/* ================= YOUTUBE ================= */
+function extractYoutubeId(input){ const m = input.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/); return m ? m[1] : null; }
+function loadYoutube(){
+  const val = document.getElementById('ytSearch').value.trim();
+  const embedEl = document.getElementById('ytEmbed');
+  const id = extractYoutubeId(val);
+  if(id){
+    embedEl.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}" allowfullscreen title="YouTube video"></iframe>`;
+    document.getElementById('ytFallback').href = 'https://www.youtube.com/watch?v='+id;
+  } else if(val.includes('list=')){
+    const listId = val.split('list=')[1].split('&')[0];
+    embedEl.innerHTML = `<iframe src="https://www.youtube.com/embed/videoseries?list=${listId}" allowfullscreen title="YouTube playlist"></iframe>`;
+    document.getElementById('ytFallback').href = val;
+  } else if(val){
+    embedEl.innerHTML = `<div style="height:100%; display:flex; align-items:center; justify-content:center; color:#8aa; font-size:13px; text-align:center; padding:0 20px;">Couldn't embed that — falling back to YouTube search.</div>`;
+    document.getElementById('ytFallback').href = 'https://www.youtube.com/results?search_query='+encodeURIComponent(val);
+    window.open(document.getElementById('ytFallback').href, '_blank');
+  }
+}
+function ytAction(type){ toast({later:'Added to Watch Later', fav:'Added to Favorites', done:'Marked as Completed'}[type]); }
+function saveYtNote(){
+  const val = document.getElementById('ytNotes').value.trim();
+  if(!val) return;
+  state.notebook.unshift({id:'yt'+Date.now(), title:'YouTube note', body:val, tag:'ai', date:new Date().toISOString()});
+  document.getElementById('ytNotes').value='';
+  renderYtNotes(); saveState(); toast('Note saved');
+}
+function copyYtNote(){
+  const val = document.getElementById('ytNotes').value;
+  if(!val){ toast('Nothing to copy'); return; }
+  navigator.clipboard.writeText(val); toast('Copied');
+}
+function renderYtNotes(){
+  const notes = state.notebook.filter(n=>n.title==='YouTube note');
+  const el = document.getElementById('ytSavedNotes');
+  if(!notes.length){ el.innerHTML = '<div class="empty">No notes yet.</div>'; return; }
+  el.innerHTML = notes.map(n=>`<div class="card-flat" style="margin-bottom:8px;"><div class="snippet" style="-webkit-line-clamp:3;">${n.body}</div></div>`).join('');
+}
+
+/* ================= AI CHAT ================= */
+function renderProviderOrder(){
+  const p = document.getElementById('providerSel').value;
+  state.provider = p;
+  document.getElementById('providerOrder').textContent = p==='auto'
+    ? 'Auto order: Gemini → Grok → DeepSeek (falls forward automatically if a quota ends)'
+    : `Using ${p.charAt(0).toUpperCase()+p.slice(1)} only`;
+  saveState();
+}
+function saveKeys(){
+  state.keys.gemini = document.getElementById('keyGemini').value;
+  state.keys.grok = document.getElementById('keyGrok').value;
+  state.keys.deepseek = document.getElementById('keyDeepseek').value;
+  saveState();
+}
+function openTools(){ document.getElementById('toolsSheet').classList.add('open'); }
+function closeTools(){ document.getElementById('toolsSheet').classList.remove('open'); }
+function renderToolsList(){ document.getElementById('toolsList').innerHTML = AI_TOOLS.map(t=>`<div class="tool-item" onclick="useTool('${t.label}')">${t.label}</div>`).join(''); }
+function useTool(label){
+  const tool = AI_TOOLS.find(t=>t.label===label);
+  const box = document.getElementById('chatInputBox');
+  if(box){ box.value = tool.prompt; box.focus(); }
+  closeTools();
+}
+function renderChat(){
+  let bar = document.getElementById('chatbarWrap');
+  if(!bar){
+    bar = document.createElement('div'); bar.id='chatbarWrap';
+    bar.innerHTML = `<div class="chatbar">
+      <button class="icon-btn" onclick="openTools()" title="Tools">🛠️</button>
+      <textarea id="chatInputBox" placeholder="Ask anything about Arabic..." rows="1" onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault(); sendChat();}"></textarea>
+      <button class="sendbtn" onclick="sendChat()">➤</button>
+    </div>`;
+    document.getElementById('app').appendChild(bar);
+  }
+  bar.style.display = currentView==='ai' ? 'block' : 'none';
+  renderToolsList();
+  const scroll = document.getElementById('chatScroll');
+  if(!state.chat.length){
+    scroll.innerHTML = `<div class="empty"><div class="ic">✨</div>Ask me anything — grammar, vocabulary, a story, or start a roleplay. Tap the tools icon 🛠️ for quick prompts.</div>`;
+    return;
+  }
+  scroll.innerHTML = state.chat.map((m,i)=>`
+    <div class="msg ${m.role}">${m.text}
+      ${m.role==='ai' ? `<div class="msg-icons">
+        <span onclick="copyMsg(${i})">📋</span>
+        <span onclick="speakArabic(state.chat[${i}].text)">🔊</span>
+        <span onclick="saveAiNote(${i})">💾</span>
+        <span onclick="deleteChatMsg(${i})">🗑️</span>
+      </div>` : ''}
+    </div>`).join('');
+  scroll.scrollTop = scroll.scrollHeight;
+}
+function copyMsg(i){ navigator.clipboard.writeText(state.chat[i].text.replace(/<[^>]*>/g,'')); toast('Copied'); }
+function clearChat(){ state.chat=[]; renderChat(); saveState(); }
+function deleteChatMsg(i){ state.chat.splice(i,1); renderChat(); saveState(); }
+function saveAiNote(i){
+  state.notebook.unshift({id:'ai'+Date.now(), title:'AI note', body: state.chat[i].text.replace(/<[^>]*>/g,''), tag:'ai', date:new Date().toISOString()});
+  saveState(); toast('Saved to Notebook');
+}
+function sendPresetPrompt(text){
+  const box = document.getElementById('chatInputBox');
+  if(box) box.value = text;
+  sendChat(text);
+}
+async function sendChat(forcedText){
+  const box = document.getElementById('chatInputBox');
+  const text = forcedText || (box ? box.value.trim() : '');
+  if(!text) return;
+  state.chat.push({role:'user', text});
+  if(box) box.value='';
+  state.aiChats++;
+  renderChat(); saveState();
+  const thinkingIdx = state.chat.push({role:'ai', text:'…'}) - 1;
+  renderChat();
+  const reply = await getAIReply(text);
+  state.chat[thinkingIdx] = {role:'ai', text: reply};
+  renderChat(); saveState();
+}
+async function getAIReply(prompt){
+  const order = state.provider==='auto' ? ['gemini','grok','deepseek'] : [state.provider];
+  for(const p of order){
+    const key = state.keys[p];
+    if(!key) continue;
+    try{ const res = await callProvider(p, key, prompt); if(res) return res; }
+    catch(e){ console.warn(p+' failed, trying next', e); }
+  }
+  return simulateReply(prompt);
+}
+async function callProvider(provider, key, prompt){
+  if(provider==='deepseek'){
+    const res = await fetch('https://api.deepseek.com/chat/completions', {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key}, body: JSON.stringify({model:'deepseek-chat', messages:[{role:'user', content:prompt}]})});
+    const data = await res.json(); return data.choices?.[0]?.message?.content;
+  }
+  if(provider==='gemini'){
+    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+key, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
+    const data = await res.json(); return data.candidates?.[0]?.content?.parts?.[0]?.text;
+  }
+  if(provider==='grok'){
+    const res = await fetch('https://api.x.ai/v1/chat/completions', {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key}, body: JSON.stringify({model:'grok-beta', messages:[{role:'user', content:prompt}]})});
+    const data = await res.json(); return data.choices?.[0]?.message?.content;
+  }
+}
+function simulateReply(prompt){
+  const p = prompt.toLowerCase();
+  if(p.includes('story')) return `📖 <b>قصة قصيرة</b><br>ذَهَبَ أَحْمَدُ إِلَى السُّوقِ صَبَاحاً. اِشْتَرَى خُبْزاً وَفَاكِهَةً. ثُمَّ عَادَ إِلَى الْبَيْتِ سَعِيداً.<br><i>Ahmad went to the market in the morning. He bought bread and fruit. Then he happily returned home.</i>`;
+  if(p.includes('quiz')) return `Sure — quick quiz: What does «سُوق» mean? (a) Market (b) School (c) River (d) Book. Reply with a letter!`;
+  if(p.includes('grammar') || p.includes('explain')) return `This week's grammar point centers on present-tense conjugation. Arabic verbs change their prefix/suffix depending on who's doing the action — أنا أفعل، أنتَ تفعل، هو يفعل، هي تفعل، نحن نفعل. Want a drill?`;
+  if(p.includes('roleplay') || p.includes('conversation')) return `أَهْلاً! أَنَا الْبَائِعُ فِي السُّوقِ. مَاذَا تُرِيدُ أَنْ تَشْتَرِيَ الْيَوْمَ؟ <br><i>(Hello! I'm the shopkeeper. What would you like to buy today?)</i>`;
+  if(p.includes('translate')) return `Send me the exact text and I'll translate it precisely into Arabic (MSA) for you.`;
+  if(p.includes('medical')) return `Useful Medical Arabic: «أَشْعُرُ بِأَلَمٍ» (I feel pain), «مُنْذُ مَتَى؟» (Since when?), «هَلْ لَدَيْكَ حَسَاسِيَّة؟» (Do you have any allergies?)`;
+  return `(Simulated response — add an API key in Settings → AI Provider for live answers) On "${prompt.slice(0,60)}${prompt.length>60?'…':''}": keep practicing a little every day, and don't be afraid to make mistakes — that's how the grammar sticks!`;
+}
+async function testAIConnection(){
+  saveKeys();
+  const out = document.getElementById('testResult');
+  out.textContent = 'Testing…';
+  const order = state.provider==='auto' ? ['gemini','grok','deepseek'] : [state.provider];
+  for(const p of order){
+    if(!state.keys[p]) continue;
+    try{ const r = await callProvider(p, state.keys[p], 'Say hello in Arabic.'); if(r){ out.textContent = `✅ ${p} responded successfully.`; return; } }
+    catch(e){ /* try next */ }
+  }
+  out.textContent = '⚠️ No provider reachable directly from the browser (likely CORS/no key) — the app uses offline simulated responses instead. A backend proxy fixes this in production.';
+}
+
+/* ================= BACKUP / RESET ================= */
+function exportBackup(){
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'arabic-app-backup.json'; a.click();
+}
+function restoreBackup(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{ state = Object.assign(state, JSON.parse(reader.result)); applyTheme(); applyFontSize(); saveState(); toast('Backup restored'); goView(currentView); }
+    catch(err){ toast('Invalid backup file'); }
+  };
+  reader.readAsText(file);
+}
+function confirmResetProgress(){ document.getElementById('confirmModalBg').classList.add('open'); }
+function resetProgress(){
+  state.progressIndex = 0; state.viewIndex = 0; state.xp = 0; state.streak = 0; state.level = 1; state.wordsLearned = 0;
+  document.getElementById('confirmModalBg').classList.remove('open');
+  saveState(); toast('Progress reset');
+  goView('home');
+}
+
+/* ================= TOAST ================= */
+function toast(msg){
+  let t = document.getElementById('toastEl');
+  if(!t){ t = document.createElement('div'); t.id='toastEl';
+    t.style.cssText = 'position:fixed; bottom:150px; left:50%; transform:translateX(-50%); background:var(--card); border:1px solid var(--card-border); color:var(--ink); padding:10px 18px; border-radius:20px; font-size:13px; z-index:300; box-shadow:var(--shadow); max-width:80%; text-align:center;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg; t.style.opacity='1';
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>{ t.style.opacity='0'; }, 1800);
+}
+
+/* ================= INIT ================= */
+async function init(){
+  await loadState();
+  state.viewIndex = state.progressIndex;
+  document.getElementById('providerSel').value = state.provider;
+  document.getElementById('keyGemini').value = state.keys.gemini;
+  document.getElementById('keyGrok').value = state.keys.grok;
+  document.getElementById('keyDeepseek').value = state.keys.deepseek;
+  document.getElementById('ttsSlider').value = state.ttsSpeed;
+  document.getElementById('ttsSpeedLbl').textContent = state.ttsSpeed.toFixed(1)+'×';
+  const posD = dayAtIndex(state.progressIndex);
+  document.getElementById('settingsPos').textContent = `Week ${posD.week}, Day ${posD.dayIdx+1} (Month ${posD.month})`;
+  renderProviderOrder();
+  renderNav();
+  renderHome();
+  renderNotebook();
+  renderTypingHistory();
+  renderYtNotes();
+  document.getElementById('typingCat').value='beginner';
+  goView('home');
+  if('speechSynthesis' in window) loadVoices();
+}
+init();
+</script>
+</body>
+</html>
